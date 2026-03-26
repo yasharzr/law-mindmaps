@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUR203 Civil Procedure - Master Mind Map</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent-1: #58a6ff;
+    --accent-2: #7ee787;
+    --accent-3: #d2a8ff;
+    --accent-4: #ffa657;
+    --accent-5: #ff7b72;
+    --accent-6: #79c0ff;
+    --accent-7: #f778ba;
+    --yellow: #e3b341;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* TOP NAV */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .top-bar h1 { font-size: 18px; font-weight: 700; color: var(--accent-1); white-space: nowrap; }
+  .top-bar .subtitle { font-size: 13px; color: var(--text-muted); }
+  .controls { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .controls button, .controls input {
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); padding: 6px 14px; border-radius: 6px;
+    font-size: 13px; cursor: pointer; transition: all 0.15s;
+  }
+  .controls button:hover { background: var(--border); }
+  .controls input { width: 200px; outline: none; }
+  .controls input:focus { border-color: var(--accent-1); }
+
+  /* PILLAR NAV */
+  .pillar-nav {
+    display: flex; gap: 0; overflow-x: auto;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .pillar-tab {
+    padding: 10px 18px; font-size: 13px; font-weight: 600;
+    cursor: pointer; border-bottom: 2px solid transparent;
+    transition: all 0.15s; white-space: nowrap; color: var(--text-muted);
+  }
+  .pillar-tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .pillar-tab.active { color: var(--accent-1); border-bottom-color: var(--accent-1); }
+  .pillar-tab[data-color="green"].active { color: var(--accent-2); border-bottom-color: var(--accent-2); }
+  .pillar-tab[data-color="purple"].active { color: var(--accent-3); border-bottom-color: var(--accent-3); }
+  .pillar-tab[data-color="orange"].active { color: var(--accent-4); border-bottom-color: var(--accent-4); }
+  .pillar-tab[data-color="red"].active { color: var(--accent-5); border-bottom-color: var(--accent-5); }
+  .pillar-tab[data-color="cyan"].active { color: var(--accent-6); border-bottom-color: var(--accent-6); }
+  .pillar-tab[data-color="pink"].active { color: var(--accent-7); border-bottom-color: var(--accent-7); }
+  .pillar-tab[data-color="yellow"].active { color: var(--yellow); border-bottom-color: var(--yellow); }
+  .pillar-tab[data-color="green"] { color: var(--text-muted); }
+  .pillar-tab[data-color="purple"] { color: var(--text-muted); }
+  .pillar-tab[data-color="orange"] { color: var(--text-muted); }
+  .pillar-tab[data-color="red"] { color: var(--text-muted); }
+  .pillar-tab[data-color="cyan"] { color: var(--text-muted); }
+  .pillar-tab[data-color="pink"] { color: var(--text-muted); }
+  .pillar-tab[data-color="yellow"] { color: var(--text-muted); }
+
+  /* MAIN */
+  .main { padding: 24px; max-width: 1100px; margin: 0 auto; }
+
+  .pillar { display: none; animation: fadeIn 0.2s ease; }
+  .pillar.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* TREE NODES */
+  .node { margin: 4px 0; border-left: 2px solid var(--border); margin-left: 0; }
+  .node-header {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 8px 12px; cursor: pointer; border-radius: 6px;
+    transition: background 0.1s; user-select: none;
+  }
+  .node-header:hover { background: rgba(255,255,255,0.04); }
+  .node-header .arrow {
+    flex-shrink: 0; width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: var(--text-muted);
+    transition: transform 0.15s; margin-top: 2px;
+  }
+  .node.open > .node-header .arrow { transform: rotate(90deg); }
+  .node-header .label { font-weight: 600; font-size: 15px; }
+  .node-header .badge {
+    font-size: 10px; padding: 1px 7px; border-radius: 10px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    flex-shrink: 0; margin-top: 3px;
+  }
+  .badge-case { background: rgba(210,168,255,0.15); color: var(--accent-3); }
+  .badge-statute { background: rgba(126,231,135,0.15); color: var(--accent-2); }
+  .badge-rule { background: rgba(88,166,255,0.15); color: var(--accent-1); }
+  .badge-test { background: rgba(255,166,87,0.15); color: var(--accent-4); }
+  .badge-tip { background: rgba(255,123,114,0.15); color: var(--accent-5); }
+  .badge-template { background: rgba(247,120,186,0.15); color: var(--accent-7); }
+  .badge-key { background: rgba(227,179,65,0.2); color: var(--yellow); }
+
+  .node-body { display: none; padding: 2px 0 2px 28px; }
+  .node.open > .node-body { display: block; }
+
+  /* LEAF */
+  .leaf {
+    padding: 8px 12px; margin: 3px 0;
+    border-radius: 6px; font-size: 14px; line-height: 1.65; color: var(--text);
+  }
+  .leaf p { margin-bottom: 6px; }
+  .leaf strong { color: var(--accent-1); }
+  .leaf em { color: var(--accent-4); font-style: italic; }
+  .leaf .case-name { color: var(--accent-3); font-style: italic; }
+  .leaf .rule-ref { color: var(--accent-2); font-weight: 600; }
+  .leaf .stat-ref { color: var(--accent-6); font-weight: 600; }
+  .leaf .warning {
+    background: rgba(255,123,114,0.1); border-left: 3px solid var(--accent-5);
+    padding: 6px 10px; margin: 6px 0; border-radius: 0 4px 4px 0; font-size: 13px;
+  }
+  .leaf .highlight {
+    background: rgba(88,166,255,0.1); border-left: 3px solid var(--accent-1);
+    padding: 6px 10px; margin: 6px 0; border-radius: 0 4px 4px 0; font-size: 13px;
+  }
+  .leaf .key-principle {
+    background: rgba(227,179,65,0.08); border-left: 3px solid var(--yellow);
+    padding: 8px 12px; margin: 8px 0; border-radius: 0 4px 4px 0; font-size: 13px;
+  }
+  .leaf .success {
+    background: rgba(126,231,135,0.08); border-left: 3px solid var(--accent-2);
+    padding: 6px 10px; margin: 6px 0; border-radius: 0 4px 4px 0; font-size: 13px;
+  }
+
+  /* FIRAC BOX */
+  .firac-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px; margin: 8px 0;
+    font-size: 13px; line-height: 1.7;
+  }
+  .firac-box .firac-label { display: inline-block; font-weight: 700; width: 24px; color: var(--accent-7); }
+  .firac-box .firac-line { margin-bottom: 4px; }
+  .firac-box h4 { color: var(--accent-7); margin-bottom: 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* TABLE */
+  .info-table {
+    width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px;
+  }
+  .info-table th {
+    background: var(--surface); padding: 8px 12px; text-align: left;
+    border: 1px solid var(--border); color: var(--accent-1);
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .info-table td { padding: 8px 12px; border: 1px solid var(--border); vertical-align: top; }
+  .info-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* LEVEL COLORS */
+  .l1 > .node-header .label { color: var(--accent-1); font-size: 18px; }
+  .l2 > .node-header .label { color: var(--accent-2); font-size: 16px; }
+  .l3 > .node-header .label { color: var(--accent-4); font-size: 15px; }
+  .l4 > .node-header .label { color: var(--text); font-size: 14px; }
+
+  /* SEARCH */
+  .search-match { background: rgba(227,179,65,0.25); border-radius: 2px; }
+  .node.search-hidden { display: none; }
+
+  /* OVERVIEW CARDS */
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 16px 0; }
+  .overview-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; cursor: pointer; transition: all 0.15s;
+  }
+  .overview-card:hover { transform: translateY(-2px); border-color: var(--accent-1); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .overview-card h3 { font-size: 16px; margin-bottom: 6px; }
+  .overview-card p { font-size: 13px; color: var(--text-muted); }
+  .overview-card .week { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  .card-blue { border-left: 3px solid var(--accent-1); }
+  .card-blue h3 { color: var(--accent-1); }
+  .card-green { border-left: 3px solid var(--accent-2); }
+  .card-green h3 { color: var(--accent-2); }
+  .card-purple { border-left: 3px solid var(--accent-3); }
+  .card-purple h3 { color: var(--accent-3); }
+  .card-orange { border-left: 3px solid var(--accent-4); }
+  .card-orange h3 { color: var(--accent-4); }
+  .card-red { border-left: 3px solid var(--accent-5); }
+  .card-red h3 { color: var(--accent-5); }
+  .card-cyan { border-left: 3px solid var(--accent-6); }
+  .card-cyan h3 { color: var(--accent-6); }
+  .card-pink { border-left: 3px solid var(--accent-7); }
+  .card-pink h3 { color: var(--accent-7); }
+  .card-yellow { border-left: 3px solid var(--yellow); }
+  .card-yellow h3 { color: var(--yellow); }
+
+  ul.compact { margin-left: 18px; margin-top: 4px; }
+  ul.compact li { margin-bottom: 2px; font-size: 13px; }
+
+  @media print {
+    .top-bar, .pillar-nav, .controls { display: none; }
+    .pillar { display: block !important; page-break-before: always; }
+    .node-body { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <h1>JUR203 Civil Procedure</h1>
+    <div class="subtitle">Master Mind Map &mdash; FIRAC Exam Prep &mdash; Toronto Metropolitan University &mdash; Winter 2026</div>
+  </div>
+  <div class="controls">
+    <input type="text" id="searchBox" placeholder="Search anything..." oninput="searchTree(this.value)">
+    <button onclick="expandAll()">Expand All</button>
+    <button onclick="collapseAll()">Collapse All</button>
+    <button onclick="window.print()">Print</button>
+  </div>
+</div>
+
+<div class="pillar-nav">
+  <div class="pillar-tab active" data-target="overview" onclick="showPillar(this)">Overview</div>
+  <div class="pillar-tab" data-target="p1" data-color="blue" onclick="showPillar(this)">1. Foundation &amp; Jurisdiction</div>
+  <div class="pillar-tab" data-target="p2" data-color="green" onclick="showPillar(this)">2. Pleadings &amp; Service</div>
+  <div class="pillar-tab" data-target="p3" data-color="purple" onclick="showPillar(this)">3. Motions &amp; Discovery</div>
+  <div class="pillar-tab" data-target="p4" data-color="orange" onclick="showPillar(this)">4. Summary Judgment &amp; Trial</div>
+  <div class="pillar-tab" data-target="p5" data-color="red" onclick="showPillar(this)">5. Appeals &amp; Class Proceedings</div>
+  <div class="pillar-tab" data-target="p6" data-color="cyan" onclick="showPillar(this)">6. ADR &amp; Settlement</div>
+  <div class="pillar-tab" data-target="rules" data-color="yellow" onclick="showPillar(this)">Key Rules</div>
+  <div class="pillar-tab" data-target="checklist" data-color="pink" onclick="showPillar(this)">Exam Checklist</div>
+</div>
+
+<div class="main">
+
+<!-- ==================== OVERVIEW ==================== -->
+<div class="pillar active" id="overview">
+  <h2 style="margin-bottom:6px;">Civil Procedure &mdash; Course Map</h2>
+  <p style="color:var(--text-muted); margin-bottom:12px;">Click any card to dive into that topic. Each section has collapsible nodes with FIRAC templates and rule references.</p>
+
+  <div class="leaf" style="margin-bottom:16px;">
+    <div class="key-principle">
+      <strong>r. 1.04(1) &mdash; The Overriding Principle (Proportionality):</strong><br>
+      "These rules shall be liberally construed to secure the <em>just, most expeditious and least expensive</em> determination of every civil proceeding on its merits."<br>
+      <span style="color:var(--text-muted); font-size:12px;">Cite this rule in EVERY procedure question. It governs the interpretation of all other rules.</span>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card card-blue" onclick="document.querySelector('[data-target=p1]').click()">
+      <div class="week">Weeks 1&ndash;3</div>
+      <h3>1. Foundation &amp; Jurisdiction</h3>
+      <p>Sources (CJA, RCP), professional conduct, territorial &amp; subject-matter jurisdiction, r. 3</p>
+    </div>
+    <div class="overview-card card-green" onclick="document.querySelector('[data-target=p2]').click()">
+      <div class="week">Weeks 4&ndash;5</div>
+      <h3>2. Pleadings &amp; Service</h3>
+      <p>Statement of Claim (r. 14), Defence (r. 18), Reply (r. 25), material facts, r. 21 motions, service methods (r. 16)</p>
+    </div>
+    <div class="overview-card card-purple" onclick="document.querySelector('[data-target=p3]').click()">
+      <div class="week">Weeks 6&ndash;7</div>
+      <h3>3. Motions &amp; Discovery</h3>
+      <p>Motion practice (r. 37), interlocutory relief, document disclosure (r. 30), examination for discovery (r. 31)</p>
+    </div>
+    <div class="overview-card card-orange" onclick="document.querySelector('[data-target=p4]').click()">
+      <div class="week">Weeks 8&ndash;9</div>
+      <h3>4. Summary Judgment &amp; Trial</h3>
+      <p><strong>Hryniak v Mauldin</strong> test (r. 20), no genuine issue, trial procedure (r. 52), experts (r. 53), costs (r. 57)</p>
+    </div>
+    <div class="overview-card card-red" onclick="document.querySelector('[data-target=p5]').click()">
+      <div class="week">Weeks 10&ndash;11</div>
+      <h3>5. Appeals &amp; Class Proceedings</h3>
+      <p>Appellate procedure (r. 61), standards of review, Class Proceedings Act 1992, certification (r. 12)</p>
+    </div>
+    <div class="overview-card card-cyan" onclick="document.querySelector('[data-target=p6]').click()">
+      <div class="week">Week 12</div>
+      <h3>6. ADR &amp; Settlement</h3>
+      <p>Mandatory mediation (r. 24.1), offers to settle (r. 49), arbitration, settlement conferences</p>
+    </div>
+    <div class="overview-card card-yellow" onclick="document.querySelector('[data-target=rules]').click()">
+      <div class="week">Quick Reference</div>
+      <h3>Key Rules Index</h3>
+      <p>Every major rule with its function, organized numerically with cross-references</p>
+    </div>
+    <div class="overview-card card-pink" onclick="document.querySelector('[data-target=checklist]').click()">
+      <div class="week">Exam Day</div>
+      <h3>Issue-Spotting Checklist</h3>
+      <p>Checkbox-based issue spotter for every major topic &mdash; use this first on every exam question</p>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;">
+    <h2 style="margin-bottom:8px;">How to Use This on Exam Day</h2>
+    <div class="leaf">
+      <div class="highlight">
+        <strong>Step 1:</strong> Read the entire fact pattern &mdash; identify the stage of litigation<br>
+        <strong>Step 2:</strong> Open the <strong>Exam Checklist</strong> tab and tick every applicable issue<br>
+        <strong>Step 3:</strong> For each issue, navigate to the relevant Pillar and open the FIRAC template<br>
+        <strong>Step 4:</strong> Always cite r. 1.04(1) proportionality at the start of any procedure analysis<br>
+        <strong>Step 5:</strong> For summary judgment &rarr; apply the full <em>Hryniak</em> two-step test
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h2 style="margin-bottom:8px;">Top Cases to Know Cold</h2>
+    <div class="leaf">
+      <table class="info-table">
+        <tr><th>Case</th><th>Rule/Topic</th><th>Ratio (one line)</th></tr>
+        <tr><td class="case-name">Hryniak v Mauldin [2014] SCC</td><td>r. 20 &mdash; Summary Judgment</td><td>Shift from trial-centric culture; SJ where judge can reach fair/just result on the record</td></tr>
+        <tr><td class="case-name">Bayliss v Wren Lake Estates</td><td>Pleadings / r. 21</td><td>Striking pleadings &mdash; requires plain &amp; obvious the claim cannot succeed</td></tr>
+        <tr><td class="case-name">Ontario v Rothmans Inc</td><td>Jurisdiction / standing</td><td>Public interest standing and class-based claims</td></tr>
+        <tr><td class="case-name">Mullin v Lagace</td><td>Service / r. 16</td><td>Substitutional service requirements &mdash; must show personal service not practicable</td></tr>
+        <tr><td class="case-name">Hoq v Doe</td><td>Motions / interlocutory</td><td>Interlocutory injunction standard &mdash; serious issue, irreparable harm, balance of convenience</td></tr>
+        <tr><td class="case-name">Wellwood v Ontario</td><td>Discovery / r. 30-31</td><td>Scope of documentary disclosure &mdash; relevance broadly construed at discovery stage</td></tr>
+        <tr><td class="case-name">Waxman v Waxman</td><td>Trial / costs</td><td>Costs awards &mdash; proportionality and party conduct throughout proceedings</td></tr>
+        <tr><td class="case-name">Andreacchi v Perruccio</td><td>Appeals / r. 61</td><td>Standard of review on findings of fact: palpable and overriding error</td></tr>
+        <tr><td class="case-name">Blanchette v Squires</td><td>Class proceedings</td><td>Certification &mdash; preferable procedure requirement under CPA 1992</td></tr>
+        <tr><td class="case-name">Goma v Raghunandan</td><td>Pleadings / material facts</td><td>Material facts must be pleaded; legal conclusions alone insufficient</td></tr>
+        <tr><td class="case-name">Jackson v Surka</td><td>ADR / mediation</td><td>Mandatory mediation obligation; failure to mediate in good faith has cost consequences</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PILLAR 1: FOUNDATION & JURISDICTION ==================== -->
+<div class="pillar" id="p1">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W1: Sources of Civil Procedure</span>
+      <span class="badge badge-statute">Statute</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Hierarchy of Sources</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <table class="info-table">
+              <tr><th>Source</th><th>Authority</th><th>Key Provisions</th></tr>
+              <tr><td><span class="stat-ref">Courts of Justice Act (CJA)</span></td><td>Ontario statute &mdash; paramount</td><td>Court structure, jurisdiction, appeals, s. 96-134</td></tr>
+              <tr><td><span class="rule-ref">Rules of Civil Procedure (RCP)</span></td><td>Ontario Regulation under CJA</td><td>Procedure for all civil matters; 76 Rules</td></tr>
+              <tr><td>Practice Directions</td><td>Regional/court-specific</td><td>Local requirements; must read before filing</td></tr>
+              <tr><td>Common Law</td><td>Fills gaps in rules</td><td>Inherent jurisdiction of Superior Court</td></tr>
+            </table>
+            <div class="key-principle">
+              <strong>r. 1.04(1) Proportionality:</strong> All rules construed to secure <em>just, expeditious, least expensive</em> determination on the merits. <span style="color:var(--accent-5);">Cite in every answer.</span>
+            </div>
+            <p><strong>r. 1.03</strong> &mdash; Definitions (e.g., "action," "application," "motion," "party")</p>
+            <p><strong>r. 1.06</strong> &mdash; Powers of court to give directions; fill procedural gaps</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Court Structure (CJA)</span>
+          <span class="badge badge-statute">CJA</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <table class="info-table">
+              <tr><th>Court</th><th>Jurisdiction</th><th>Notes</th></tr>
+              <tr><td>Ontario Court of Justice</td><td>Criminal; family (limited)</td><td>No civil jurisdiction (minor exceptions)</td></tr>
+              <tr><td>Superior Court of Justice (SCJ)</td><td>Unlimited original civil jurisdiction</td><td>Inherent jurisdiction; most civil actions here</td></tr>
+              <tr><td>Divisional Court</td><td>Judicial review; certain appeals</td><td>3-judge panel; appeals from interlocutory orders</td></tr>
+              <tr><td>Court of Appeal for Ontario</td><td>Appeals from SCJ final orders</td><td>Leave required in some cases</td></tr>
+              <tr><td>Supreme Court of Canada</td><td>Leave appeals</td><td>Must raise question of national importance</td></tr>
+            </table>
+            <p><strong>Associate Judge vs. Judge:</strong> Associate Judges (formerly Masters) hear motions and procedural matters; Judges hear trials and major motions. Associate Judge orders are appealable to a SCJ judge.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Divisional Court hears appeals from interlocutory orders and judicial review applications &mdash; not the Court of Appeal. Don't mix these up.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">r. 2.1 &mdash; Frivolous/Vexatious Proceedings</span>
+          <span class="badge badge-rule">Rule</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>Court may, on its own initiative, stay or dismiss a proceeding that appears on its face to be <strong>frivolous, vexatious, or an abuse of process</strong>.</p>
+            <p>Parties may also bring a motion under r. 2.1 to have a proceeding stayed or dismissed.</p>
+            <div class="warning">
+              <strong>Threshold:</strong> High bar &mdash; only where the case is "manifestly and clearly" without merit. Does not replace r. 21 (motion before trial).
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W2: Professional Conduct &amp; Ethics</span>
+      <span class="badge badge-statute">Rules of Prof. Conduct</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Lawyer Competence</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Rules of Professional Conduct (Law Society of Ontario)</strong> &mdash; govern lawyer conduct in civil proceedings.</p>
+            <p><strong>Competence (r. 3.1-2):</strong> Lawyer must apply <em>relevant knowledge, skills and attributes</em> to representation. Includes knowing procedure, knowing the facts, and applying diligence.</p>
+            <p><strong>Candour to tribunal (r. 5.1-2):</strong> Lawyer must not knowingly deceive the court. Must disclose adverse controlling authority. Cannot mislead through acts or omissions.</p>
+            <div class="highlight">
+              <strong>Key obligations in civil proceedings:</strong><br>
+              &bull; Serve client resolutely but within the law<br>
+              &bull; Not make frivolous arguments or claims<br>
+              &bull; Not take positions that will delay or increase costs unnecessarily (links to r. 1.04)<br>
+              &bull; Advise client of ADR options (r. 24.1 mandatory mediation)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Client Relationships &amp; Confidentiality</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Solicitor-client privilege:</strong> Communications for purpose of obtaining legal advice are privileged. Cannot be disclosed in discovery or at trial without client waiver.</p>
+            <p><strong>Litigation privilege:</strong> Documents prepared for dominant purpose of litigation are protected from disclosure. <em>Distinct</em> from solicitor-client privilege &mdash; ends when litigation ends.</p>
+            <p><strong>Without prejudice communications:</strong> Settlement discussions protected from use as admissions. Protects candour in negotiation.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Litigation privilege is not absolute &mdash; once litigation ends, privilege may be lost. Solicitor-client privilege is permanent unless waived.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W3: Jurisdiction</span>
+      <span class="badge badge-rule">r. 3</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Territorial Jurisdiction</span>
+          <span class="badge badge-rule">r. 3.02</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>Ontario courts may assume jurisdiction over defendants outside Ontario where there is a <strong>real and substantial connection</strong> to Ontario.</p>
+            <p><strong>Factors establishing connection (Morguard / Club Resorts principles):</strong></p>
+            <ul class="compact">
+              <li>Defendant domiciled or resident in Ontario</li>
+              <li>Contract made or to be performed in Ontario</li>
+              <li>Tort committed in Ontario</li>
+              <li>Real property situated in Ontario</li>
+              <li>Defendant carried on business in Ontario</li>
+            </ul>
+            <p><strong>r. 3.02:</strong> Service outside Ontario permitted where one of the enumerated connections exists (formerly ex juris service).</p>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Territorial Jurisdiction Issue</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Defendant located in [X province/country]; cause of action arose in [Y]</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Does Ontario SCJ have territorial jurisdiction over defendant?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> Real &amp; substantial connection test (Morguard); r. 3.02 enumerated bases for service ex juris</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Identify which connecting factor(s) apply &mdash; e.g., tort in Ontario, contract to be performed in Ontario</div>
+              <div class="firac-line"><span class="firac-label">C:</span> If connection exists: jurisdiction established; if not: forum may decline or lack jurisdiction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Subject Matter Jurisdiction</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>SCJ has unlimited civil jurisdiction</strong> (CJA s. 11). No minimum/maximum claim amount.</p>
+            <p><strong>Small Claims Court:</strong> Claims up to $35,000 (as of 2020). Simplified procedure.</p>
+            <p><strong>Consent jurisdiction:</strong> Parties may consent to jurisdiction they would otherwise lack (e.g., forum selection clauses).</p>
+            <p><strong>Forum non conveniens:</strong> Even if jurisdiction exists, court may decline to exercise it if another forum is clearly more appropriate. Factors: location of parties, witnesses, evidence, applicable law.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Federal matters (e.g., patents, bankruptcy, immigration) go to Federal Court, not SCJ. Subject matter jurisdiction is distinct from territorial jurisdiction.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Limitation Periods</span>
+          <span class="badge badge-statute">Limitations Act 2002</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Basic limitation period:</strong> 2 years from the date the claim was discovered (s. 4, Limitations Act 2002).</p>
+            <p><strong>Ultimate limitation period:</strong> 15 years from the date the act/omission occurred (s. 15) &mdash; regardless of discovery.</p>
+            <p><strong>Discoverability:</strong> Claim discovered when plaintiff knew or ought to have known: (1) injury occurred; (2) caused by defendant; (3) sufficiently serious to warrant proceeding (s. 5).</p>
+            <div class="warning">
+              <strong>Trap:</strong> Limitation periods are a defence &mdash; the defendant must plead it. Court cannot raise it on its own. Always check: when did cause of action arise? When was it discovered? Has 2 years elapsed?
+            </div>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Limitation Period</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Plaintiff suffered injury on [date]; commenced action on [date]</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Is the claim statute-barred under the Limitations Act 2002?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> s. 4: 2-year basic period from discovery; s. 5: discoverability; s. 15: 15-year ultimate cap</div>
+              <div class="firac-line"><span class="firac-label">A:</span> When did plaintiff know/ought to have known? Calculate 2 years from that date.</div>
+              <div class="firac-line"><span class="firac-label">C:</span> If &gt;2 years: claim prima facie statute-barred (subject to discoverability argument)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end p1 -->
+
+<!-- ==================== PILLAR 2: PLEADINGS & SERVICE ==================== -->
+<div class="pillar" id="p2">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W4: Pleadings</span>
+      <span class="badge badge-rule">r. 14, 18, 25</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Statement of Claim &mdash; r. 14</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Originating process:</strong> An action begins with a Statement of Claim (r. 14.01). Application begins with a Notice of Application.</p>
+            <p><strong>Contents required (r. 25.06):</strong></p>
+            <ul class="compact">
+              <li>Every material fact (not evidence, not legal conclusions)</li>
+              <li>Nature of claim &mdash; what relief is sought</li>
+              <li>Damages must be particularized (special damages specifically)</li>
+              <li>Parties correctly named and capacity stated</li>
+            </ul>
+            <p><strong>Issuance:</strong> Claim issued by court (stamp &amp; seal); backsheet; court file number assigned.</p>
+            <p><strong>Validity:</strong> Statement of Claim valid for 6 months for service within Ontario; 12 months for service outside Ontario (r. 14.08).</p>
+            <div class="key-principle">
+              <strong>Material Facts Rule (Goma v Raghunandan):</strong> Must plead material facts &mdash; the "who, what, when, where, how." Legal conclusions are not enough. Evidence is not pleaded.
+            </div>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Defective Statement of Claim</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Plaintiff files claim containing only legal conclusions / omits key facts</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Is the Statement of Claim defective for failing to plead material facts?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> r. 25.06: must plead material facts; r. 21.01(1)(b): court may strike pleading disclosing no reasonable cause of action</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Identify what is missing (facts vs conclusions); can the defect be cured by amendment?</div>
+              <div class="firac-line"><span class="firac-label">C:</span> Court may strike pleading or order particulars; amendment permitted if no prejudice</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Statement of Defence &mdash; r. 18</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Timing (r. 18.01):</strong> Defendant must deliver defence within 20 days of service of claim (if served in Ontario). Extended to 40 days if served outside Ontario but within Canada; 60 days if served outside Canada.</p>
+            <p><strong>Deemed admissions (r. 25.07):</strong> Any allegation not specifically denied is deemed admitted. Defendant must either admit, deny, or plead no knowledge of each allegation.</p>
+            <p><strong>Affirmative defences:</strong> Must be specifically pleaded &mdash; limitation period, contributory negligence, release, res judicata, etc.</p>
+            <p><strong>Default judgment (r. 19):</strong> If defendant fails to deliver statement of defence, plaintiff may note defendant in default and seek default judgment.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Deemed admissions &mdash; if defence says "the defendant denies paragraphs 1 to 5" without specifying which facts are denied, everything else is admitted. Must be specific.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Reply &amp; Subsequent Pleadings &mdash; r. 25</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Reply (r. 25.08):</strong> Plaintiff may deliver reply to any new matter raised in defence. Not mandatory. Must be delivered within 10 days of defence.</p>
+            <p><strong>Close of pleadings:</strong> After defence (or reply, if any), pleadings are closed. Parties then move to discovery.</p>
+            <p><strong>Amendments (r. 26):</strong> Pleadings may be amended with leave of court or consent of parties. Court grants leave unless amendment would cause prejudice not compensable by costs. Relation-back doctrine for amendments adding new parties.</p>
+            <div class="highlight">
+              <strong>Pleadings serve four functions:</strong> (1) define the issues; (2) give notice to the other side; (3) limit the evidence at trial; (4) form the basis for the judgment.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Striking Pleadings &mdash; r. 21</span>
+          <span class="badge badge-case">Bayliss v Wren Lake</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>r. 21.01:</strong> A party may move before trial to have a pleading struck on the basis that it:</p>
+            <ul class="compact">
+              <li>(1)(a) Discloses no reasonable cause of action or defence</li>
+              <li>(1)(b) Is scandalous, frivolous, or vexatious</li>
+              <li>(1)(c) May prejudice, embarrass or delay a fair trial</li>
+              <li>(1)(d) Is otherwise an abuse of process</li>
+            </ul>
+            <p><strong>Standard (Bayliss v Wren Lake Estates):</strong> Court assumes all pleaded facts are true. Question is whether it is <strong>"plain and obvious"</strong> that the claim cannot succeed. High threshold.</p>
+            <p><strong>On a r. 21 motion:</strong> No evidence is filed. The court looks at the pleadings only (on their face).</p>
+            <div class="warning">
+              <strong>Trap:</strong> r. 21 motion cannot be used to test credibility or weigh conflicting facts. That is for trial or summary judgment. If there is any arguable point of law, the pleading survives.
+            </div>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; r. 21 Motion to Strike</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Defendant moves to strike plaintiff's claim as disclosing no cause of action</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Should the pleading be struck under r. 21.01?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> "Plain and obvious" test; all pleaded facts assumed true; no evidence admitted</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Does the pleading, if all facts accepted, disclose a known cause of action? Any arguable legal basis?</div>
+              <div class="firac-line"><span class="firac-label">C:</span> If plain and obvious it cannot succeed: struck (with or without leave to amend); if arguable: motion dismissed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W5: Service</span>
+      <span class="badge badge-rule">r. 16</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Methods of Personal Service &mdash; r. 16.02</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <table class="info-table">
+              <tr><th>Who is Served</th><th>How to Serve (r. 16.02)</th></tr>
+              <tr><td>Individual</td><td>Leave copy with person personally</td></tr>
+              <tr><td>Corporation</td><td>Leave copy with officer/director/agent, OR registered agent for service</td></tr>
+              <tr><td>Municipality</td><td>Leave with mayor, clerk, or deputy</td></tr>
+              <tr><td>Crown (Ontario)</td><td>Leave with a solicitor in Ministry of Attorney General</td></tr>
+              <tr><td>Minor or person under disability</td><td>Serve on litigation guardian AND minor/person (if 16+)</td></tr>
+            </table>
+            <p><strong>Originating process</strong> (Statement of Claim) must be served <em>personally</em> or by an accepted alternative method. Subsequent documents may be served by alternatives.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Alternatives to Personal Service</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Accepted alternatives (r. 16.03):</strong></p>
+            <ul class="compact">
+              <li>Acceptance of service by lawyer</li>
+              <li>Mail (with 5-day rule &mdash; deemed served 5 days after mailing)</li>
+              <li>Courier</li>
+              <li>Fax (with confirmation)</li>
+              <li>Email (with prior written consent or court order)</li>
+            </ul>
+            <p><strong>Deemed service:</strong> Where a document is served by mail or courier, it is deemed served on a later date (to account for transit time). Timing affects deadlines for responding.</p>
+            <div class="key-principle">
+              <strong>Deemed service dates:</strong> Mail &rarr; 5 days after mailing; Courier &rarr; 2 days after dispatch; Fax &rarr; same day if sent before 5pm on a business day, else next business day.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Service Outside Ontario &amp; Substitutional Service</span>
+          <span class="badge badge-case">Mullin v Lagace</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Service outside Ontario (r. 17):</strong> Permitted where a connection to Ontario exists (same factors as territorial jurisdiction). Leave may be required depending on basis for service.</p>
+            <p><strong>Substitutional service (r. 16.04):</strong> Where personal service is not practicable, court may order substitutional service (e.g., posting on door, leaving with adult at residence, publication in newspaper).</p>
+            <p><strong>Mullin v Lagace:</strong> To obtain substitutional service order, must show (1) genuine attempts to serve personally; (2) personal service is not practicable; (3) proposed method will likely bring proceeding to defendant's attention.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Substitutional service is not routine &mdash; must make genuine attempts at personal service first. Court is reluctant to order it absent evidence of those attempts.
+            </div>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Substitutional Service</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Plaintiff cannot locate defendant to serve Statement of Claim personally</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Can plaintiff obtain an order for substitutional service?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> r. 16.04; Mullin v Lagace three-part test</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Evidence of attempts; impracticability; proposed method likely to come to defendant's attention</div>
+              <div class="firac-line"><span class="firac-label">C:</span> Order granted specifying method; failure to comply with order may result in proceeding being set aside</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end p2 -->
+
+<!-- ==================== PILLAR 3: MOTIONS & DISCOVERY ==================== -->
+<div class="pillar" id="p3">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W6: Motion Practice</span>
+      <span class="badge badge-rule">r. 37, 39</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Motions Generally &mdash; r. 37</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Motion:</strong> An application to the court for an order in the course of a proceeding. Used to resolve procedural disputes without trial.</p>
+            <p><strong>Notice of motion (r. 37.03):</strong> Must state the date, time, place, grounds for motion, and relief sought. Served on all parties.</p>
+            <p><strong>r. 37.09:</strong> Court may dismiss a motion or grant an order if the responding party fails to appear.</p>
+            <table class="info-table">
+              <tr><th>Type of Motion</th><th>Description</th><th>Key Rule</th></tr>
+              <tr><td>Interlocutory</td><td>Made during proceedings; does not finally determine rights</td><td>r. 37</td></tr>
+              <tr><td>Interim (ex parte)</td><td>Without notice to other side; urgent circumstances only</td><td>r. 37.03(3)</td></tr>
+              <tr><td>In writing</td><td>Decided on written materials without oral hearing</td><td>r. 37.12.1</td></tr>
+              <tr><td>Determination before trial</td><td>Determine point of law; strike pleading</td><td>r. 21</td></tr>
+            </table>
+            <div class="highlight">
+              <strong>r. 1.04 on motions:</strong> Court considers proportionality &mdash; motions should not be used to drive up costs. Costs consequences for unnecessary or unsuccessful motions.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Interlocutory Injunctions</span>
+          <span class="badge badge-case">Hoq v Doe</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Three-part test (RJR-MacDonald / Hoq v Doe):</strong></p>
+            <ul class="compact">
+              <li><strong>(1) Serious issue to be tried:</strong> Is there an arguable case (not frivolous or vexatious)?</li>
+              <li><strong>(2) Irreparable harm:</strong> Will plaintiff suffer harm not compensable in damages if injunction refused?</li>
+              <li><strong>(3) Balance of convenience:</strong> Does balance of harm favour granting or refusing the injunction?</li>
+            </ul>
+            <p><strong>Undertaking as to damages:</strong> Plaintiff must give an undertaking to compensate defendant for any loss if injunction is wrongly granted.</p>
+            <div class="warning">
+              <strong>Trap:</strong> "Serious issue" is low threshold &mdash; not balance of probabilities. But if strong prima facie case established, court may go straight to balance of convenience.
+            </div>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Interlocutory Injunction</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Plaintiff seeks order restraining defendant's ongoing conduct pending trial</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Should an interlocutory injunction be granted?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> RJR-MacDonald three-part test: serious issue, irreparable harm, balance of convenience</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Apply each branch; consider undertaking as to damages; assess status quo</div>
+              <div class="firac-line"><span class="firac-label">C:</span> Grant if all three branches satisfied; order may include terms and conditions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Evidence on Motions &mdash; r. 39</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Primary evidence form:</strong> Affidavit evidence (r. 39.01). Affiants swear to facts within personal knowledge.</p>
+            <p><strong>Cross-examination (r. 39.02):</strong> Any party may cross-examine an affiant on their affidavit. Cross-examination is conducted outside court, transcript filed.</p>
+            <p><strong>Hearsay in affidavits:</strong> Permitted on motions (unlike trial) if source identified and belief stated. Court gives it less weight.</p>
+            <div class="warning">
+              <strong>Trap:</strong> If you cross-examine on an affidavit, you are bound by the answers. You cannot later argue the affiant's evidence is unreliable without having cross-examined on it.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W7: Discovery</span>
+      <span class="badge badge-rule">r. 30, 31</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Document Discovery &mdash; r. 30</span>
+          <span class="badge badge-case">Wellwood v Ontario</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Affidavit of Documents (r. 30.03):</strong> Each party must serve an affidavit listing ALL documents in their possession, power, or control that are or may be relevant to issues in the action.</p>
+            <p><strong>Three schedules:</strong></p>
+            <ul class="compact">
+              <li><strong>Schedule A:</strong> Documents being produced (will allow inspection)</li>
+              <li><strong>Schedule B:</strong> Documents being withheld (privilege claimed &mdash; must state basis)</li>
+              <li><strong>Schedule C:</strong> Documents no longer in party's possession (must state what happened to them)</li>
+            </ul>
+            <p><strong>Wellwood v Ontario:</strong> Relevance at discovery stage is <em>broadly construed</em> &mdash; any document that may <em>possibly</em> be relevant, adversely affect a party, or support a party's case must be disclosed.</p>
+            <p><strong>Continuing obligation:</strong> Party must supplement affidavit if new documents come into existence during litigation.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Failure to disclose a document may result in it being inadmissible at trial (r. 30.08). Court has discretion to exclude or impose conditions. Document destruction can give rise to adverse inference.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Examination for Discovery &mdash; r. 31</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Oral examination (r. 31.03):</strong> Each party (through representative if corporation) examined under oath. Conducted outside court.</p>
+            <p><strong>Scope (r. 31.06):</strong> Any matter in issue or relating to a matter in issue. Includes information about witnesses' identity and location.</p>
+            <p><strong>Undertakings:</strong> When examiner asks for information witness does not have, witness may "undertake" to get and provide it. Undertakings are binding obligations and must be fulfilled.</p>
+            <p><strong>Refusals:</strong> Witness may refuse to answer if (1) question is improper (privileged, irrelevant, harassing); if improper refusal, opposing party may bring motion to compel.</p>
+            <p><strong>Read-ins at trial:</strong> Admissions made at discovery may be "read in" at trial as evidence against the party who made them.</p>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Discovery Refusal</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Witness refuses to answer question at examination for discovery</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Is the refusal proper? Can examining party compel the answer?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> r. 31.06 broad scope; refusal only proper if: privileged, irrelevant, oppressive</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Is the question within the scope of r. 31.06? Is a valid basis for refusal established?</div>
+              <div class="firac-line"><span class="firac-label">C:</span> If refusal improper: motion to compel; court may order answer and award costs against refusing party</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Privilege at Discovery</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <table class="info-table">
+              <tr><th>Privilege Type</th><th>What it Protects</th><th>Duration</th></tr>
+              <tr><td>Solicitor-client</td><td>Communications between lawyer and client for legal advice</td><td>Permanent (unless waived)</td></tr>
+              <tr><td>Litigation privilege</td><td>Documents prepared for dominant purpose of litigation</td><td>Ends when litigation ends</td></tr>
+              <tr><td>Without prejudice</td><td>Settlement communications</td><td>Duration of discussions</td></tr>
+              <tr><td>Public interest immunity</td><td>Government documents (narrow)</td><td>Varies</td></tr>
+            </table>
+            <div class="warning">
+              <strong>Trap:</strong> Litigation privilege requires "dominant purpose" test &mdash; if document created for multiple purposes, must show litigation was dominant. Insurance investigation reports often fail this test.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end p3 -->
+
+<!-- ==================== PILLAR 4: SUMMARY JUDGMENT & TRIAL ==================== -->
+<div class="pillar" id="p4">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W8: Summary Judgment &mdash; r. 20</span>
+      <span class="badge badge-key">MOST IMPORTANT</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2 open">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Hryniak v Mauldin [2014] SCC &mdash; The Test</span>
+          <span class="badge badge-case">KEY CASE</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <div class="key-principle">
+              <strong>Hryniak v Mauldin [2014] SCC 7 (Karakatsanis J)</strong><br>
+              "Proportionate, timely and affordable justice is the hallmark of a fair and just process."<br>
+              Court must take a <strong>culture shift</strong> away from trial-centricity. Summary judgment should be the norm where it achieves a fair and just result.
+            </div>
+            <p><strong>The Two-Step Hryniak Test:</strong></p>
+            <p><strong>Step 1 &mdash; Is there a genuine issue requiring a trial?</strong></p>
+            <ul class="compact">
+              <li>Judge looks at the full record (affidavits, cross-examinations, documents)</li>
+              <li>No genuine issue if: (a) the claim/defence has no merit; or (b) the factual dispute can be resolved without a trial</li>
+              <li>Judge may weigh evidence, assess credibility, draw inferences (with enhanced fact-finding powers)</li>
+            </ul>
+            <p><strong>Step 2 &mdash; If genuine issue exists, can enhanced powers resolve it?</strong></p>
+            <ul class="compact">
+              <li><strong>r. 20.04(2.1):</strong> Judge may weigh evidence and draw inferences</li>
+              <li><strong>r. 20.04(2.2):</strong> Judge may order oral evidence (mini-trial) on motion</li>
+              <li>Use these powers if it is <em>in the interest of justice</em> to do so</li>
+              <li>Ask: will a trial be better than the motion record for reaching a just result?</li>
+            </ul>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Summary Judgment (Hryniak)</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Defendant/plaintiff brings motion for summary judgment; argues no trial needed</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Is there a "genuine issue requiring a trial" under r. 20?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> r. 20.04; Hryniak two-step: (1) genuine issue? (2) enhanced powers resolve it?</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Step 1: Review record &mdash; is there a real dispute of material fact? Step 2: Can judge weigh evidence / order oral evidence to resolve it fairly?</div>
+              <div class="firac-line"><span class="firac-label">C:</span> Grant SJ if: no genuine issue OR genuine issue but judge can resolve it with enhanced powers and this serves interests of justice</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">r. 20 &mdash; Mechanics</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Who can bring (r. 20.01):</strong> Plaintiff or defendant; on all or part of claim/defence.</p>
+            <p><strong>When:</strong> After statement of defence has been filed. Usually after examination for discovery.</p>
+            <p><strong>Responding party's obligation (r. 20.04(2)):</strong> Cannot rest on pleadings &mdash; must put its <em>best foot forward</em> and present specific facts showing genuine issue for trial.</p>
+            <p><strong>Partial summary judgment:</strong> Court may grant SJ on some issues and order trial on remaining issues.</p>
+            <div class="warning">
+              <strong>Trap:</strong> If responding party has not conducted discovery and needs more time, may ask court to adjourn under r. 20.05 ("need more time to get evidence"). Court has discretion to allow this but will not automatically do so.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W9: Trial Procedure</span>
+      <span class="badge badge-rule">r. 52, 53, 57</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Trial Mechanics &mdash; r. 52</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Order of proceedings at trial:</strong></p>
+            <ul class="compact">
+              <li>(1) Plaintiff's opening statement</li>
+              <li>(2) Plaintiff's witnesses (examination in chief &rarr; cross-examination &rarr; re-examination)</li>
+              <li>(3) Defendant's witnesses (same sequence)</li>
+              <li>(4) Plaintiff may call reply evidence</li>
+              <li>(5) Closing submissions (defendant first, then plaintiff)</li>
+              <li>(6) Judgment</li>
+            </ul>
+            <p><strong>Burden of proof:</strong> Plaintiff bears burden on balance of probabilities for each element of the claim. Defendant bears burden on affirmative defences.</p>
+            <p><strong>Non-suit (r. 52.03):</strong> After plaintiff's case, defendant may move for non-suit without calling evidence &mdash; argues plaintiff has not established a prima facie case.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Once defendant elects to call evidence, right to non-suit is lost. Defendant must elect before calling any evidence.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Expert Evidence &mdash; r. 53</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Expert's duty (r. 53.03):</strong> Expert's primary duty is to the court, not the party who retained them. Must provide fair, objective, and non-partisan opinion.</p>
+            <p><strong>Requirements for expert opinion:</strong></p>
+            <ul class="compact">
+              <li>Expert report must be served at least 90 days before trial (60 days for responding expert)</li>
+              <li>Report must set out: qualifications, facts relied on, opinion, and reasoning</li>
+              <li>Expert must acknowledge duty to court (signed acknowledgment)</li>
+            </ul>
+            <p><strong>Mohan criteria (admissibility):</strong> (1) Relevance; (2) Necessity; (3) Absence of exclusionary rule; (4) Properly qualified expert.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Failure to serve expert report in time may mean expert cannot testify at trial (r. 53.03(3)). Court has discretion to allow late service but may impose costs or other conditions.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Costs &mdash; r. 57</span>
+          <span class="badge badge-case">Waxman v Waxman</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>General principle:</strong> Costs follow the event &mdash; the losing party pays the winning party's costs (partial indemnity).</p>
+            <p><strong>Scales of costs:</strong></p>
+            <ul class="compact">
+              <li><strong>Partial indemnity:</strong> Default; approximately 50-60% of actual costs</li>
+              <li><strong>Substantial indemnity:</strong> Approximately 80-90%; awarded when party conduct warrants (bad faith, improper conduct)</li>
+              <li><strong>Full indemnity:</strong> Very rare; egregious conduct</li>
+            </ul>
+            <p><strong>Waxman v Waxman:</strong> Court has broad discretion on costs. Factors include: success, offers to settle, conduct of parties, complexity, proportionality of legal fees.</p>
+            <p><strong>Offers to settle (r. 49):</strong> If plaintiff fails to beat defendant's offer, defendant may be entitled to partial indemnity costs up to offer date, and substantial indemnity after. Creates powerful settlement incentive.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end p4 -->
+
+<!-- ==================== PILLAR 5: APPEALS & CLASS PROCEEDINGS ==================== -->
+<div class="pillar" id="p5">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W10: Appeals</span>
+      <span class="badge badge-rule">r. 61</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Interlocutory vs. Final Orders</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <table class="info-table">
+              <tr><th></th><th>Interlocutory Order</th><th>Final Order</th></tr>
+              <tr><td><strong>Definition</strong></td><td>Does not finally determine rights; made during proceedings</td><td>Finally disposes of substantive rights; ends the proceeding (or part of it)</td></tr>
+              <tr><td><strong>Appeal to</strong></td><td>Divisional Court (with leave)</td><td>Court of Appeal</td></tr>
+              <tr><td><strong>Leave required?</strong></td><td>Yes &mdash; in most cases</td><td>No (as of right) in most cases</td></tr>
+              <tr><td><strong>Examples</strong></td><td>Motion granting/refusing production; adjournment; injunction</td><td>Judgment after trial; summary judgment; dismissal on merits</td></tr>
+            </table>
+            <div class="warning">
+              <strong>Trap:</strong> Classification as interlocutory vs final is determined by the <em>effect</em> on the rights, not the form of the order. A summary judgment dismissing an action is a final order even though made without trial.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Appellate Procedure &mdash; r. 61</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Notice of Appeal (r. 61.04):</strong> Filed and served within 30 days of final order. Perfected within 60 days.</p>
+            <p><strong>Appeal record:</strong> Appellant must perfect appeal by filing: (1) appeal book and compendium; (2) transcript of evidence; (3) factum.</p>
+            <p><strong>Factum:</strong> Written argument outlining facts, issues, law, and relief sought. Appellant's factum due first; respondent responds; appellant may reply.</p>
+            <p><strong>Fresh evidence on appeal (Palmer test):</strong> New evidence generally not admissible on appeal unless: (1) not available with reasonable diligence at trial; (2) relevant and credible; (3) could reasonably have affected the result.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Standards of Review</span>
+          <span class="badge badge-case">Andreacchi v Perruccio</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <table class="info-table">
+              <tr><th>Issue Type</th><th>Standard</th><th>Meaning</th></tr>
+              <tr><td>Questions of law</td><td>Correctness</td><td>Court of Appeal decides for itself; no deference</td></tr>
+              <tr><td>Questions of fact</td><td>Palpable and overriding error</td><td>High deference; trial judge had advantage of seeing witnesses</td></tr>
+              <tr><td>Mixed fact and law</td><td>Palpable and overriding error (generally)</td><td>Unless legal error is extricable from fact findings</td></tr>
+              <tr><td>Discretionary orders (e.g., costs)</td><td>Error in principle</td><td>Appellate court defers unless wrong principle applied</td></tr>
+            </table>
+            <div class="highlight">
+              <strong>Andreacchi v Perruccio:</strong> Appellate court must show deference to trial judge's findings of fact. Will not interfere unless palpable (obvious) and overriding (material to the result) error shown.
+            </div>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Standard of Review on Appeal</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Appellant challenges trial judge's findings</div>
+              <div class="firac-line"><span class="firac-label">I:</span> What is the appropriate standard of review?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> Law = correctness; fact = palpable &amp; overriding error; discretion = error in principle</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Characterize the finding: is it a pure legal conclusion or a factual finding?</div>
+              <div class="firac-line"><span class="firac-label">C:</span> Apply correct standard; intervention warranted only if standard met</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W11: Class Proceedings</span>
+      <span class="badge badge-statute">CPA 1992</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Class Proceedings Act 1992 &mdash; Certification</span>
+          <span class="badge badge-case">Blanchette v Squires</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Five certification requirements (CPA s. 5):</strong></p>
+            <ul class="compact">
+              <li><strong>(1) Cause of action:</strong> Pleadings must disclose a cause of action (same as r. 21 standard)</li>
+              <li><strong>(2) Identifiable class:</strong> Class must be capable of objective definition; two or more persons</li>
+              <li><strong>(3) Common issues:</strong> Claims raise common issues of fact or law (need not predominate)</li>
+              <li><strong>(4) Preferable procedure:</strong> Class proceeding is preferable to individual actions for resolving common issues (Blanchette)</li>
+              <li><strong>(5) Representative plaintiff:</strong> Named plaintiff adequately represents class interests; no conflict; litigation plan</li>
+            </ul>
+            <div class="key-principle">
+              <strong>Blanchette v Squires &mdash; Preferable Procedure:</strong> Must consider whether class proceeding offers advantages over individual suits in terms of: access to justice, behaviour modification, judicial economy. Not a merits assessment at certification.
+            </div>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Certification of Class Action</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Proposed representative plaintiff seeks certification of class action</div>
+              <div class="firac-line"><span class="firac-label">I:</span> Does the proceeding meet the five certification requirements under CPA s. 5?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> CPA 1992 s. 5; Blanchette on preferable procedure</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Check each of the five requirements; focus on common issues and preferable procedure</div>
+              <div class="firac-line"><span class="firac-label">C:</span> If all five satisfied: certify; identify representative plaintiff, class definition, and common issues</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Class Proceedings &mdash; Procedure</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Opt-out regime:</strong> Class members are automatically included unless they opt out within the specified period. Opt-in is used in some jurisdictions but not Ontario.</p>
+            <p><strong>Common issues trial:</strong> After certification, court determines common issues applicable to all class members. Individual issues (e.g., individual damages) assessed separately.</p>
+            <p><strong>Notice:</strong> Court approves notice to class members. Must describe class, common issues, right to opt out, litigation plan.</p>
+            <p><strong>Costs:</strong> Representative plaintiff is not personally liable for defendant's costs unless proceeding was frivolous or vexatious (CPA s. 31).</p>
+            <div class="warning">
+              <strong>Trap:</strong> Ontario v Rothmans &mdash; certification is not a merits determination. Do not argue the case is unlikely to succeed at certification stage. Threshold is low.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end p5 -->
+
+<!-- ==================== PILLAR 6: ADR & SETTLEMENT ==================== -->
+<div class="pillar" id="p6">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">W12: Alternative Dispute Resolution</span>
+      <span class="badge badge-rule">r. 24.1, 49</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2 open">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Mandatory Mediation &mdash; r. 24.1</span>
+          <span class="badge badge-case">Jackson v Surka</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Scope:</strong> Applies in Toronto, Ottawa, and Essex regions to defended actions (excluding family, estates, and certain other proceedings). Mandatory under r. 24.1.</p>
+            <p><strong>Process:</strong></p>
+            <ul class="compact">
+              <li>Parties must attend mediation within 180 days of first defence</li>
+              <li>Mediator selected from approved roster, or parties may agree on any person</li>
+              <li>All parties and their counsel must attend</li>
+              <li>Mediator facilitates &mdash; does not adjudicate</li>
+            </ul>
+            <p><strong>Confidentiality:</strong> Statements made in mediation are without prejudice and not admissible at trial (r. 24.1.14). Mediation is privileged.</p>
+            <p><strong>Jackson v Surka:</strong> Party who refuses to attend mediation or does not participate in good faith may face cost consequences. Good faith participation is required.</p>
+            <div class="warning">
+              <strong>Trap:</strong> Failure to comply with mandatory mediation timelines may result in the action being stayed until mediation is completed. Cannot proceed to trial without certificate of non-settlement (or agreement) from mediator.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Offers to Settle &mdash; r. 49</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Rule 49 offer mechanism:</strong> A party may serve a written offer to settle at any time. The offer may be withdrawn any time before acceptance (unless stated to be open for a specific time).</p>
+            <p><strong>Cost consequences:</strong></p>
+            <ul class="compact">
+              <li><strong>Plaintiff's offer &mdash; not beaten:</strong> If plaintiff gets judgment less favourable than their own offer, plaintiff entitled only to partial indemnity costs up to offer date; defendant entitled to partial indemnity costs after</li>
+              <li><strong>Defendant's offer &mdash; not beaten:</strong> If plaintiff's judgment is no better than defendant's offer, defendant entitled to partial indemnity costs from offer date onward</li>
+            </ul>
+            <p><strong>Purpose:</strong> Encourages early settlement. Creates cost risk for party who refuses a reasonable offer.</p>
+            <div class="key-principle">
+              <strong>Strategy:</strong> Always make a r. 49 offer early in litigation. Even if it is not accepted, it shifts costs risk to the other side if you do at least as well as your offer.
+            </div>
+            <div class="firac-box">
+              <h4>FIRAC &mdash; Rule 49 Cost Consequences</h4>
+              <div class="firac-line"><span class="firac-label">F:</span> Defendant offered to settle for $X; plaintiff rejected; plaintiff recovered $Y at trial</div>
+              <div class="firac-line"><span class="firac-label">I:</span> What are the cost consequences under r. 49?</div>
+              <div class="firac-line"><span class="firac-label">R:</span> r. 49.10: if judgment no more favourable than offer &rarr; defendant gets partial indemnity costs after offer date</div>
+              <div class="firac-line"><span class="firac-label">A:</span> Compare judgment amount to offer; which is more favourable? Date offer was made?</div>
+              <div class="firac-line"><span class="firac-label">C:</span> Allocate costs: partial indemnity before offer date; defendant's costs on partial indemnity after offer date if offer not beaten</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Settlement Conferences &amp; Arbitration</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Pre-trial conference (r. 50):</strong> Mandatory before all trials. Judge (not the trial judge) hears summaries of positions, identifies issues, may encourage settlement. Pre-trial briefs filed in advance.</p>
+            <p><strong>Judicial dispute resolution (JDR):</strong> Voluntary process where parties meet with a judge for binding or non-binding resolution. Available in Ontario through various programs.</p>
+            <p><strong>Arbitration:</strong> Parties agree to submit dispute to private arbitrator whose decision is binding. Governed by Ontario Arbitration Act, 1991. Court may stay a lawsuit where parties have an arbitration agreement (s. 7).</p>
+            <div class="highlight">
+              <strong>Arbitration vs. Mediation:</strong> Arbitrator decides the dispute (adjudicative). Mediator facilitates agreement (facilitative). Arbitration award is enforceable as a court judgment.
+            </div>
+            <div class="warning">
+              <strong>Trap:</strong> Courts are reluctant to grant stays in favour of arbitration where one party is a consumer (Arbitration Act consumer protection provisions) or where the dispute is not within the arbitration clause's scope.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end p6 -->
+
+<!-- ==================== KEY RULES ==================== -->
+<div class="pillar" id="rules">
+
+  <h2 style="margin-bottom:8px; color:var(--yellow);">Key Rules Quick Reference</h2>
+  <p style="color:var(--text-muted); margin-bottom:16px;">All major rules organized numerically. Cite the rule number AND its purpose in every answer.</p>
+
+  <div class="leaf">
+    <div class="key-principle">
+      <strong>The Golden Rule &mdash; r. 1.04(1):</strong> "These rules shall be liberally construed to secure the just, most expeditious and least expensive determination of every civil proceeding on its merits." &mdash; Proportionality principle. Cite this at the start of any procedure analysis.
+    </div>
+  </div>
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Rules 1&ndash;25: Foundation, Parties, Pleadings</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Rule</th><th>Topic</th><th>Key Function</th></tr>
+          <tr><td class="rule-ref">r. 1.03</td><td>Definitions</td><td>"Action," "application," "motion," "party," "proceeding" defined</td></tr>
+          <tr><td class="rule-ref">r. 1.04</td><td>Proportionality / liberal construction</td><td><strong>THE overriding principle</strong> &mdash; cite in every answer</td></tr>
+          <tr><td class="rule-ref">r. 1.06</td><td>Powers of court to give directions</td><td>Fill gaps in procedure; court may direct as it thinks just</td></tr>
+          <tr><td class="rule-ref">r. 2.1</td><td>Frivolous / vexatious proceedings</td><td>Court may stay or dismiss on its own motion; "manifestly" without merit</td></tr>
+          <tr><td class="rule-ref">r. 3 / r. 3.02</td><td>Jurisdiction</td><td>Service ex juris; territorial jurisdiction connecting factors</td></tr>
+          <tr><td class="rule-ref">r. 7</td><td>Parties under disability</td><td>Minors and persons under disability; litigation guardian required</td></tr>
+          <tr><td class="rule-ref">r. 14</td><td>Originating process</td><td>Statement of Claim; claim valid 6/12 months; backsheet requirements</td></tr>
+          <tr><td class="rule-ref">r. 16.02</td><td>Personal service</td><td>Who may be served and how; individuals, corporations, Crown, minors</td></tr>
+          <tr><td class="rule-ref">r. 16.04</td><td>Substitutional service</td><td>Court order required; show personal service impracticable</td></tr>
+          <tr><td class="rule-ref">r. 18.01</td><td>Statement of Defence timing</td><td>20 days (Ontario), 40 days (Canada), 60 days (outside Canada)</td></tr>
+          <tr><td class="rule-ref">r. 19</td><td>Default proceedings</td><td>Note in default; default judgment where defendant fails to defend</td></tr>
+          <tr><td class="rule-ref">r. 20</td><td>Summary judgment</td><td>No genuine issue for trial; Hryniak test; enhanced fact-finding powers</td></tr>
+          <tr><td class="rule-ref">r. 21</td><td>Determination before trial</td><td>Strike pleadings; determine point of law; plain and obvious test</td></tr>
+          <tr><td class="rule-ref">r. 24.1</td><td>Mandatory mediation</td><td>Toronto/Ottawa/Essex regions; 180 days from first defence</td></tr>
+          <tr><td class="rule-ref">r. 25</td><td>Pleadings rules</td><td>Material facts; no evidence; particulars; deemed admissions</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Rules 30&ndash;61: Discovery, Trial, Costs, Appeals</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Rule</th><th>Topic</th><th>Key Function</th></tr>
+          <tr><td class="rule-ref">r. 30</td><td>Discovery of documents</td><td>Affidavit of documents; three schedules (A/B/C); continuing obligation</td></tr>
+          <tr><td class="rule-ref">r. 31</td><td>Examination for discovery</td><td>Oral examination; scope; undertakings; refusals; read-ins at trial</td></tr>
+          <tr><td class="rule-ref">r. 37</td><td>Motions</td><td>Notice of motion; return date; ex parte; in-writing motions</td></tr>
+          <tr><td class="rule-ref">r. 39</td><td>Evidence on motions</td><td>Affidavit evidence; cross-examination on affidavits; hearsay permitted</td></tr>
+          <tr><td class="rule-ref">r. 49</td><td>Offers to settle</td><td>Cost consequences; partial/substantial indemnity triggers</td></tr>
+          <tr><td class="rule-ref">r. 52</td><td>Trial procedure</td><td>Order of proceedings; non-suit; burden of proof</td></tr>
+          <tr><td class="rule-ref">r. 53</td><td>Expert witnesses</td><td>90-day / 60-day service rule; duty to court; Mohan criteria</td></tr>
+          <tr><td class="rule-ref">r. 57</td><td>Costs</td><td>Costs follow event; partial / substantial indemnity; factors in discretion</td></tr>
+          <tr><td class="rule-ref">r. 61</td><td>Appeals</td><td>Notice of Appeal 30 days; factum; fresh evidence (Palmer test)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Key Statutes Summary</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Statute</th><th>Key Provisions</th><th>When to Cite</th></tr>
+          <tr><td class="stat-ref">Courts of Justice Act (CJA)</td><td>Court structure, inherent jurisdiction, appeals, s. 96-134</td><td>Jurisdiction questions; court structure; appellate routes</td></tr>
+          <tr><td class="stat-ref">Rules of Civil Procedure</td><td>All procedural rules; r. 1.04 proportionality</td><td>Every procedure question</td></tr>
+          <tr><td class="stat-ref">Limitations Act 2002</td><td>s. 4 (2-year basic); s. 5 (discoverability); s. 15 (15-year ultimate)</td><td>Whenever time of action arises</td></tr>
+          <tr><td class="stat-ref">Class Proceedings Act 1992</td><td>s. 5 (certification); s. 31 (representative plaintiff costs)</td><td>Class action questions</td></tr>
+          <tr><td class="stat-ref">Evidence Act (Ontario)</td><td>Admissibility of various types of evidence at trial</td><td>Evidence questions at trial</td></tr>
+          <tr><td class="stat-ref">JRPA (Judicial Review Procedure Act)</td><td>Judicial review of administrative decisions</td><td>Administrative law / JR questions</td></tr>
+          <tr><td class="stat-ref">SPPA (Statutory Powers Procedure Act)</td><td>Procedural rights in admin tribunals</td><td>Tribunal procedure questions</td></tr>
+          <tr><td class="stat-ref">Rules of Professional Conduct (LSO)</td><td>Lawyer duties; candour; competence; confidentiality</td><td>Ethics / professional conduct questions</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end rules -->
+
+<!-- ==================== EXAM CHECKLIST ==================== -->
+<div class="pillar" id="checklist">
+
+  <h2 style="margin-bottom:8px; color:var(--accent-7);">Issue-Spotting Checklist</h2>
+  <p style="color:var(--text-muted); margin-bottom:16px;">Work through this checklist for every exam question. Tick the boxes that apply and then consult the relevant pillar for the FIRAC template.</p>
+
+  <div class="leaf">
+    <div class="key-principle">
+      <strong>Start every procedure answer with:</strong> "Under r. 1.04(1), all rules must be liberally construed to secure the just, most expeditious and least expensive determination of every civil proceeding on its merits."
+    </div>
+  </div>
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Stage 1: Commencing the Action</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong style="color:var(--accent-1);">JURISDICTION (W3)</strong><br>
+        <label><input type="checkbox"> Is the SCJ the right court? (subject matter jurisdiction)</label><br>
+        <label><input type="checkbox"> Is there territorial jurisdiction? (real &amp; substantial connection)</label><br>
+        <label><input type="checkbox"> Is there a forum selection clause? (consent jurisdiction)</label><br>
+        <label><input type="checkbox"> Should forum non conveniens be raised?</label><br>
+        <label><input type="checkbox"> Has the limitation period expired? (Limitations Act 2002, s. 4)</label><br>
+        <label><input type="checkbox"> What is the discoverability date? (s. 5)</label></p>
+
+        <p><strong style="color:var(--accent-2);">ORIGINATING PROCESS (W4 &mdash; r. 14)</strong><br>
+        <label><input type="checkbox"> Action or Application? (is there a dispute of fact?)</label><br>
+        <label><input type="checkbox"> Has the claim been properly issued?</label><br>
+        <label><input type="checkbox"> Is it within the 6-month validity period?</label><br>
+        <label><input type="checkbox"> Are all parties named correctly?</label><br>
+        <label><input type="checkbox"> Does the claim plead material facts (not just legal conclusions)?</label></p>
+
+        <p><strong style="color:var(--accent-3);">SERVICE (W5 &mdash; r. 16)</strong><br>
+        <label><input type="checkbox"> Was the originating process served within 6 months?</label><br>
+        <label><input type="checkbox"> Was service personal or by an accepted alternative?</label><br>
+        <label><input type="checkbox"> If by mail/courier/fax: is the deemed service date correct?</label><br>
+        <label><input type="checkbox"> Service outside Ontario? (r. 17 &mdash; connecting factor required)</label><br>
+        <label><input type="checkbox"> Was substitutional service required? (Mullin v Lagace test)</label></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Stage 2: Pleadings &amp; Early Motions</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong style="color:var(--accent-4);">DEFENCE &amp; PLEADINGS (r. 18, 25)</strong><br>
+        <label><input type="checkbox"> Defence delivered within 20 days?</label><br>
+        <label><input type="checkbox"> All allegations specifically admitted or denied? (deemed admissions trap)</label><br>
+        <label><input type="checkbox"> Affirmative defences specifically pleaded (limitation, contrib. negligence)?</label><br>
+        <label><input type="checkbox"> Counterclaim or crossclaim to be made?</label><br>
+        <label><input type="checkbox"> Third party claim required?</label></p>
+
+        <p><strong style="color:var(--accent-5);">r. 21 MOTION (W4)</strong><br>
+        <label><input type="checkbox"> Does any pleading fail to disclose a cause of action / defence?</label><br>
+        <label><input type="checkbox"> "Plain and obvious" standard met? (all facts assumed true)</label><br>
+        <label><input type="checkbox"> Should amendment be allowed instead of striking?</label><br>
+        <label><input type="checkbox"> Is there a pure question of law to determine before trial?</label></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Stage 3: Discovery &amp; Motions</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong style="color:var(--accent-6);">DISCOVERY (W7 &mdash; r. 30, 31)</strong><br>
+        <label><input type="checkbox"> Has affidavit of documents been served? (r. 30.03)</label><br>
+        <label><input type="checkbox"> Are all three schedules (A, B, C) complete?</label><br>
+        <label><input type="checkbox"> Documents withheld on privilege &mdash; proper basis stated?</label><br>
+        <label><input type="checkbox"> Are undertakings from examination fulfilled?</label><br>
+        <label><input type="checkbox"> Any improper refusals? (motion to compel required?)</label><br>
+        <label><input type="checkbox"> Litigation privilege properly claimed? (dominant purpose test)</label></p>
+
+        <p><strong style="color:var(--accent-7);">INTERLOCUTORY MOTIONS (W6 &mdash; r. 37)</strong><br>
+        <label><input type="checkbox"> Interlocutory injunction sought? (serious issue, irreparable harm, balance)</label><br>
+        <label><input type="checkbox"> Undertaking as to damages given by plaintiff?</label><br>
+        <label><input type="checkbox"> Is motion on affidavit evidence (r. 39)?</label><br>
+        <label><input type="checkbox"> Can affiants be cross-examined?</label></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Stage 4: Summary Judgment &amp; Trial</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong style="color:var(--yellow);">SUMMARY JUDGMENT (W8 &mdash; r. 20 / Hryniak) &mdash; CHECK EVERY QUESTION</strong><br>
+        <label><input type="checkbox"> Has defence been filed? (precondition to SJ motion)</label><br>
+        <label><input type="checkbox"> Is there a genuine issue requiring a trial? (Hryniak Step 1)</label><br>
+        <label><input type="checkbox"> Can enhanced fact-finding powers resolve the issue? (Hryniak Step 2)</label><br>
+        <label><input type="checkbox"> Has responding party put its best foot forward?</label><br>
+        <label><input type="checkbox"> Partial summary judgment available?</label></p>
+
+        <p><strong style="color:var(--accent-1);">TRIAL (W9 &mdash; r. 52, 53)</strong><br>
+        <label><input type="checkbox"> Mandatory mediation completed? (r. 24.1)</label><br>
+        <label><input type="checkbox"> Pre-trial conference held? (r. 50)</label><br>
+        <label><input type="checkbox"> Expert reports served 90 days before trial? (r. 53.03)</label><br>
+        <label><input type="checkbox"> Non-suit motion possible after plaintiff's case?</label><br>
+        <label><input type="checkbox"> Rule 49 offer made? (cost consequences to consider)</label></p>
+
+        <p><strong style="color:var(--accent-2);">COSTS (r. 57)</strong><br>
+        <label><input type="checkbox"> Who succeeded? (costs follow event)</label><br>
+        <label><input type="checkbox"> Were there r. 49 offers? (partial vs substantial indemnity)</label><br>
+        <label><input type="checkbox"> Was party conduct unreasonable? (substantial indemnity trigger)</label><br>
+        <label><input type="checkbox"> Is costs award proportionate to amount recovered?</label></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Stage 5: Appeals, Class Actions &amp; ADR</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong style="color:var(--accent-3);">APPEALS (W10 &mdash; r. 61)</strong><br>
+        <label><input type="checkbox"> Is the order interlocutory or final? (determines which court)</label><br>
+        <label><input type="checkbox"> Notice of Appeal filed within 30 days?</label><br>
+        <label><input type="checkbox"> What standard of review applies? (law = correctness; fact = palpable &amp; overriding)</label><br>
+        <label><input type="checkbox"> Fresh evidence sought? (Palmer test)</label><br>
+        <label><input type="checkbox"> Leave to appeal required?</label></p>
+
+        <p><strong style="color:var(--accent-4);">CLASS PROCEEDINGS (W11 &mdash; CPA 1992)</strong><br>
+        <label><input type="checkbox"> Five certification requirements met? (CPA s. 5)</label><br>
+        <label><input type="checkbox"> Common issues identified?</label><br>
+        <label><input type="checkbox"> Preferable procedure shown? (Blanchette)</label><br>
+        <label><input type="checkbox"> Representative plaintiff adequate?</label><br>
+        <label><input type="checkbox"> Class definition objectively determinable?</label></p>
+
+        <p><strong style="color:var(--accent-5);">ADR (W12 &mdash; r. 24.1)</strong><br>
+        <label><input type="checkbox"> Mandatory mediation jurisdiction? (Toronto/Ottawa/Essex)</label><br>
+        <label><input type="checkbox"> Mediation completed within 180 days of first defence?</label><br>
+        <label><input type="checkbox"> Certificate of non-settlement obtained?</label><br>
+        <label><input type="checkbox"> Arbitration clause in contract? (stay of proceedings?)</label><br>
+        <label><input type="checkbox"> Settlement conference booked? (mandatory before trial)</label></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Common Traps &amp; Exam Mistakes</span>
+      <span class="badge badge-tip">Warning</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <div class="warning">
+          <strong>Top 10 Civil Procedure Traps:</strong><br><br>
+          1. <strong>Forgetting r. 1.04:</strong> Every procedure answer should open with the proportionality principle.<br><br>
+          2. <strong>Deemed admissions (r. 25.07):</strong> If defence doesn't specifically deny an allegation, it is admitted. Examiners love this.<br><br>
+          3. <strong>Hryniak Step 2:</strong> Don't stop at Step 1 of summary judgment. Even if there IS a genuine issue, ask if enhanced powers can resolve it.<br><br>
+          4. <strong>Interlocutory vs final order:</strong> Determines whether appeal goes to Divisional Court or Court of Appeal. Don't confuse these.<br><br>
+          5. <strong>Limitation period is a defence:</strong> Must be pleaded by defendant; court cannot raise it. Check timing carefully.<br><br>
+          6. <strong>Substitutional service:</strong> Not automatic. Must show genuine attempts at personal service failed.<br><br>
+          7. <strong>r. 21 motion:</strong> No evidence. Plain and obvious standard. Court assumes pleaded facts are true. Cannot test credibility.<br><br>
+          8. <strong>Solicitor-client vs litigation privilege:</strong> Litigation privilege ends when litigation ends; solicitor-client privilege is permanent.<br><br>
+          9. <strong>r. 49 offer cost consequences:</strong> Check whether the offer was made by plaintiff or defendant, and whether the judgment was more or less favourable than the offer.<br><br>
+          10. <strong>Non-suit election:</strong> Once defendant calls any evidence, the right to move for non-suit is forever lost.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end checklist -->
+
+</div><!-- end .main -->
+
+<script>
+function toggle(node) {
+  node.classList.toggle('open');
+}
+
+function showPillar(tab) {
+  document.querySelectorAll('.pillar-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pillar').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  const target = tab.getAttribute('data-target');
+  document.getElementById(target).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function expandAll() {
+  const activePillar = document.querySelector('.pillar.active');
+  if (activePillar) {
+    activePillar.querySelectorAll('.node').forEach(n => n.classList.add('open'));
+  }
+}
+
+function collapseAll() {
+  const activePillar = document.querySelector('.pillar.active');
+  if (activePillar) {
+    activePillar.querySelectorAll('.node').forEach(n => n.classList.remove('open'));
+  }
+}
+
+function searchTree(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.node').forEach(node => {
+    node.classList.remove('search-hidden');
+  });
+  document.querySelectorAll('.search-match').forEach(el => {
+    el.outerHTML = el.innerHTML;
+  });
+  if (!q) return;
+
+  const allPillars = document.querySelectorAll('.pillar');
+  allPillars.forEach(p => {
+    const text = p.textContent.toLowerCase();
+    if (text.includes(q)) {
+      p.querySelectorAll('.node').forEach(node => {
+        const nodeText = node.textContent.toLowerCase();
+        if (nodeText.includes(q)) {
+          node.classList.add('open');
+          let parent = node.parentElement;
+          while (parent) {
+            if (parent.classList && parent.classList.contains('node')) {
+              parent.classList.add('open');
+            }
+            parent = parent.parentElement;
+          }
+        }
+      });
+    }
+  });
+}
+</script>
+
+</body>
+</html>
