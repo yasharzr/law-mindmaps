@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2L Law Mind Maps - FIRAC Exam Prep</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent-1: #58a6ff;
+    --accent-2: #7ee787;
+    --accent-3: #d2a8ff;
+    --accent-4: #ffa657;
+    --accent-5: #ff7b72;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    width: 100%;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: block;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .card-blue { border-left: 4px solid var(--accent-1); }
+  .card-blue:hover { border-color: var(--accent-1); }
+  .card-green { border-left: 4px solid var(--accent-2); }
+  .card-green:hover { border-color: var(--accent-2); }
+  .card-purple { border-left: 4px solid var(--accent-3); }
+  .card-purple:hover { border-color: var(--accent-3); }
+  .card .code {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .card h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .card-blue h2 { color: var(--accent-1); }
+  .card-green h2 { color: var(--accent-2); }
+  .card-purple h2 { color: var(--accent-3); }
+  .card p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .card .tags {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .card .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.06);
+    color: var(--text-muted);
+  }
+  .footer {
+    margin-top: 40px;
+    color: var(--text-muted);
+    font-size: 13px;
+    text-align: center;
+  }
+  .footer a { color: var(--accent-1); text-decoration: none; }
+  .badge {
+    display: inline-block;
+    background: rgba(126,231,135,0.15);
+    color: var(--accent-2);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<h1>2L Semester 2 - Exam Prep</h1>
+<p class="subtitle">Interactive FIRAC Mind Maps &mdash; Lincoln Alexander School of Law &mdash; Winter 2026</p>
+
+<div class="grid">
+  <a href="family-law.html" class="card card-blue">
+    <div class="code">JUR202</div>
+    <h2>Family Law</h2>
+    <p>Marriage, Divorce, Property Equalization, Spousal Support, Parenting, Child Support, Domestic Agreements, Family Violence</p>
+    <div class="tags">
+      <span class="tag">7 Pillars</span>
+      <span class="tag">16+ Cases</span>
+      <span class="tag">FIRAC Templates</span>
+      <span class="tag">SSAG Formulas</span>
+    </div>
+  </a>
+
+  <a href="real-estate.html" class="card card-green">
+    <div class="code">JUR302</div>
+    <h2>Real Estate Law</h2>
+    <p>Transaction Stages, Title Systems, APS, Searches, Requisitions, Mortgages, Closing, Land Transfer Tax, Remedies</p>
+    <div class="tags">
+      <span class="tag">6 Pillars</span>
+      <span class="tag">12+ Cases</span>
+      <span class="tag">FIRAC Templates</span>
+      <span class="tag">LTA s.140(2)</span>
+    </div>
+  </a>
+
+  <a href="civil-pro.html" class="card card-purple">
+    <div class="code">JUR203</div>
+    <h2>Civil Procedure</h2>
+    <p>Jurisdiction, Pleadings, Service, Motions, Discovery, Summary Judgment, Trial, Appeals, Class Proceedings, ADR</p>
+    <div class="tags">
+      <span class="tag">6 Pillars</span>
+      <span class="tag">141 Rules</span>
+      <span class="tag">FIRAC Templates</span>
+      <span class="tag">Hryniak Test</span>
+    </div>
+  </a>
+</div>
+
+<div class="footer">
+  <p>Open Book Exam Prep <span class="badge">FIRAC Method</span></p>
+  <p style="margin-top: 8px;">Built for TMU Law 2026 &mdash; Click any card to open the full interactive mind map</p>
+</div>
+
+</body>
+</html>

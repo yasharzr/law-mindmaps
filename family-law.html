@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUR202 Family Law - Master Mind Map</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent-1: #58a6ff;
+    --accent-2: #7ee787;
+    --accent-3: #d2a8ff;
+    --accent-4: #ffa657;
+    --accent-5: #ff7b72;
+    --accent-6: #79c0ff;
+    --accent-7: #f778ba;
+    --yellow: #e3b341;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* TOP NAV */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .top-bar h1 {
+    font-size: 18px; font-weight: 700; color: var(--accent-1);
+    white-space: nowrap;
+  }
+  .top-bar .subtitle {
+    font-size: 13px; color: var(--text-muted);
+  }
+  .controls {
+    margin-left: auto;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .controls button, .controls input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .controls button:hover { background: var(--border); }
+  .controls input {
+    width: 200px;
+    outline: none;
+  }
+  .controls input:focus { border-color: var(--accent-1); }
+
+  /* PILLAR NAV */
+  .pillar-nav {
+    display: flex; gap: 0; overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .pillar-tab {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+  .pillar-tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .pillar-tab.active { color: var(--accent-1); border-bottom-color: var(--accent-1); }
+  .pillar-tab[data-color="green"] { color: var(--accent-2); border-bottom-color: var(--accent-2); }
+  .pillar-tab[data-color="purple"] { color: var(--accent-3); border-bottom-color: var(--accent-3); }
+  .pillar-tab[data-color="orange"] { color: var(--accent-4); border-bottom-color: var(--accent-4); }
+  .pillar-tab[data-color="red"] { color: var(--accent-5); border-bottom-color: var(--accent-5); }
+  .pillar-tab[data-color="blue"] { color: var(--accent-6); border-bottom-color: var(--accent-6); }
+  .pillar-tab[data-color="pink"] { color: var(--accent-7); border-bottom-color: var(--accent-7); }
+  .pillar-tab[data-color="yellow"] { color: var(--yellow); border-bottom-color: var(--yellow); }
+
+  /* MAIN CONTENT */
+  .main { padding: 24px; max-width: 1100px; margin: 0 auto; }
+
+  /* PILLAR SECTION */
+  .pillar {
+    display: none;
+    animation: fadeIn 0.2s ease;
+  }
+  .pillar.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* TREE NODES */
+  .node {
+    margin: 4px 0;
+    border-left: 2px solid var(--border);
+    margin-left: 0;
+  }
+  .node-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.1s;
+    user-select: none;
+  }
+  .node-header:hover { background: rgba(255,255,255,0.04); }
+  .node-header .arrow {
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: transform 0.15s;
+    margin-top: 2px;
+  }
+  .node.open > .node-header .arrow { transform: rotate(90deg); }
+  .node-header .label {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .node-header .badge {
+    font-size: 10px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  .badge-case { background: rgba(210,168,255,0.15); color: var(--accent-3); }
+  .badge-statute { background: rgba(126,231,135,0.15); color: var(--accent-2); }
+  .badge-test { background: rgba(255,166,87,0.15); color: var(--accent-4); }
+  .badge-formula { background: rgba(88,166,255,0.15); color: var(--accent-1); }
+  .badge-tip { background: rgba(255,123,114,0.15); color: var(--accent-5); }
+  .badge-template { background: rgba(247,120,186,0.15); color: var(--accent-7); }
+
+  .node-body {
+    display: none;
+    padding: 2px 0 2px 28px;
+  }
+  .node.open > .node-body { display: block; }
+
+  /* LEAF CONTENT */
+  .leaf {
+    padding: 8px 12px;
+    margin: 3px 0;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .leaf p { margin-bottom: 6px; }
+  .leaf strong { color: var(--accent-1); }
+  .leaf em { color: var(--accent-4); font-style: italic; }
+  .leaf .case-name { color: var(--accent-3); font-style: italic; }
+  .leaf .section-ref { color: var(--accent-2); font-weight: 600; }
+  .leaf .warning {
+    background: rgba(255,123,114,0.1);
+    border-left: 3px solid var(--accent-5);
+    padding: 6px 10px;
+    margin: 6px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+  }
+  .leaf .highlight {
+    background: rgba(88,166,255,0.1);
+    border-left: 3px solid var(--accent-1);
+    padding: 6px 10px;
+    margin: 6px 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+  }
+
+  /* FIRAC TEMPLATE BOX */
+  .firac-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .firac-box .firac-label {
+    display: inline-block;
+    font-weight: 700;
+    width: 24px;
+    color: var(--accent-7);
+  }
+  .firac-box .firac-line {
+    margin-bottom: 4px;
+  }
+
+  /* TABLE */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  .info-table th {
+    background: var(--surface);
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid var(--border);
+    color: var(--accent-1);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .info-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  /* LEVEL COLORS */
+  .l1 > .node-header .label { color: var(--accent-1); font-size: 18px; }
+  .l2 > .node-header .label { color: var(--accent-2); font-size: 16px; }
+  .l3 > .node-header .label { color: var(--accent-4); font-size: 15px; }
+  .l4 > .node-header .label { color: var(--text); font-size: 14px; }
+
+  /* SEARCH HIGHLIGHT */
+  .search-match { background: rgba(227,179,65,0.25); border-radius: 2px; }
+  .node.search-hidden { display: none; }
+
+  /* OVERVIEW CARDS */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .overview-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .overview-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .overview-card h3 { font-size: 16px; margin-bottom: 6px; }
+  .overview-card p { font-size: 13px; color: var(--text-muted); }
+  .overview-card .week { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  .card-blue { border-left: 3px solid var(--accent-1); }
+  .card-blue h3 { color: var(--accent-1); }
+  .card-green { border-left: 3px solid var(--accent-2); }
+  .card-green h3 { color: var(--accent-2); }
+  .card-purple { border-left: 3px solid var(--accent-3); }
+  .card-purple h3 { color: var(--accent-3); }
+  .card-orange { border-left: 3px solid var(--accent-4); }
+  .card-orange h3 { color: var(--accent-4); }
+  .card-red { border-left: 3px solid var(--accent-5); }
+  .card-red h3 { color: var(--accent-5); }
+  .card-cyan { border-left: 3px solid var(--accent-6); }
+  .card-cyan h3 { color: var(--accent-6); }
+  .card-pink { border-left: 3px solid var(--accent-7); }
+  .card-pink h3 { color: var(--accent-7); }
+  .card-yellow { border-left: 3px solid var(--yellow); }
+  .card-yellow h3 { color: var(--yellow); }
+
+  /* PRINT */
+  @media print {
+    .top-bar, .pillar-nav, .controls { display: none; }
+    .pillar { display: block !important; page-break-before: always; }
+    .node-body { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <h1>JUR202 Family Law</h1>
+    <div class="subtitle">Master Mind Map &mdash; FIRAC Exam Prep &mdash; Winter 2026</div>
+  </div>
+  <div class="controls">
+    <input type="text" id="searchBox" placeholder="Search anything..." oninput="searchTree(this.value)">
+    <button onclick="expandAll()">Expand All</button>
+    <button onclick="collapseAll()">Collapse All</button>
+    <button onclick="window.print()">Print</button>
+  </div>
+</div>
+
+<div class="pillar-nav">
+  <div class="pillar-tab active" data-target="overview" onclick="showPillar(this)">Overview</div>
+  <div class="pillar-tab" data-target="p1" data-color="blue" onclick="showPillar(this)">1. Foundation</div>
+  <div class="pillar-tab" data-target="p2" data-color="green" onclick="showPillar(this)">2. Divorce</div>
+  <div class="pillar-tab" data-target="p3" data-color="purple" onclick="showPillar(this)">3. Property</div>
+  <div class="pillar-tab" data-target="p4" data-color="orange" onclick="showPillar(this)">4. Spousal Support</div>
+  <div class="pillar-tab" data-target="p5" data-color="red" onclick="showPillar(this)">5. Agreements</div>
+  <div class="pillar-tab" data-target="p6" data-color="cyan" onclick="showPillar(this)">6. Parenting</div>
+  <div class="pillar-tab" data-target="p7" data-color="pink" onclick="showPillar(this)">7. Child Support</div>
+  <div class="pillar-tab" data-target="cases" data-color="yellow" onclick="showPillar(this)">Case Law</div>
+  <div class="pillar-tab" data-target="checklist" onclick="showPillar(this)">Exam Checklist</div>
+</div>
+
+<div class="main">
+
+<!-- ==================== OVERVIEW ==================== -->
+<div class="pillar active" id="overview">
+  <h2 style="margin-bottom: 6px;">Course Map</h2>
+  <p style="color: var(--text-muted); margin-bottom: 16px;">Click any card to dive into that topic. Each section has collapsible nodes with FIRAC templates ready for your exam.</p>
+
+  <div class="overview-grid">
+    <div class="overview-card card-blue" onclick="document.querySelector('[data-target=p1]').click()">
+      <div class="week">Weeks 1-2</div>
+      <h3>1. Foundation</h3>
+      <p>Jurisdiction, Dispute Resolution, Family Violence, Marriage (Capacity &amp; Formalities)</p>
+    </div>
+    <div class="overview-card card-green" onclick="document.querySelector('[data-target=p2]').click()">
+      <div class="week">Week 3</div>
+      <h3>2. Divorce</h3>
+      <p>Grounds (s.8 DA), Separation, Adultery, Cruelty, Religious Barriers</p>
+    </div>
+    <div class="overview-card card-purple" onclick="document.querySelector('[data-target=p3]').click()">
+      <div class="week">Weeks 3-5</div>
+      <h3>3. Property Division</h3>
+      <p>Equalization (FLA), Unjust Enrichment, JFV, Excluded Property, Matrimonial Home</p>
+    </div>
+    <div class="overview-card card-orange" onclick="document.querySelector('[data-target=p4]').click()">
+      <div class="week">Weeks 6-7</div>
+      <h3>4. Spousal Support</h3>
+      <p>Moge, Bracklow, Three Bases, SSAG Ranges, Variation</p>
+    </div>
+    <div class="overview-card card-red" onclick="document.querySelector('[data-target=p5]').click()">
+      <div class="week">Week 8</div>
+      <h3>5. Domestic Agreements</h3>
+      <p>Miglin Test, Hartshorne, Rick v Brandsema, s.55-56 FLA</p>
+    </div>
+    <div class="overview-card card-cyan" onclick="document.querySelector('[data-target=p6]').click()">
+      <div class="week">Weeks 9-10</div>
+      <h3>6. Parenting</h3>
+      <p>Best Interest (s.16(3)), Family Violence, Relocation (Barendregt), Views of Child</p>
+    </div>
+    <div class="overview-card card-pink" onclick="document.querySelector('[data-target=p7]').click()">
+      <div class="week">Weeks 11-12</div>
+      <h3>7. Child Support</h3>
+      <p>Guidelines, Table Amount, Shared Custody (s.9), Special Expenses (s.7), Imputing Income</p>
+    </div>
+    <div class="overview-card card-yellow" onclick="document.querySelector('[data-target=cases]').click()">
+      <div class="week">Quick Reference</div>
+      <h3>All Case Law</h3>
+      <p>Every key case with 1-2 line ratio, organized by topic</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 24px;">
+    <h2 style="margin-bottom: 8px;">How to Use This on Exam Day</h2>
+    <div class="leaf">
+      <div class="highlight">
+        <strong>Step 1:</strong> Read the entire fact pattern<br>
+        <strong>Step 2:</strong> Use the <strong>Exam Checklist</strong> tab to spot all issues<br>
+        <strong>Step 3:</strong> For each issue, click the relevant Pillar and grab the FIRAC template<br>
+        <strong>Step 4:</strong> Plug in facts &rarr; Apply law &rarr; Calculate numbers &rarr; <strong>Take a side</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PILLAR 1: FOUNDATION ==================== -->
+<div class="pillar" id="p1">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">1A. Jurisdiction &mdash; Federal vs Provincial</span>
+      <span class="badge badge-statute">Statute</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Federal (s. 91(26))</th><th>Provincial (s. 92(12) &amp; (13))</th></tr>
+          <tr>
+            <td>
+              <strong>"Marriage and Divorce"</strong><br>
+              &bull; Capacity to marry (who CAN marry)<br>
+              &bull; <span class="section-ref">Divorce Act, RSC 1985</span><br>
+              &nbsp;&nbsp;&bull; Divorce grounds<br>
+              &nbsp;&nbsp;&bull; Spousal support (corollary relief)<br>
+              &nbsp;&nbsp;&bull; Parenting &amp; child support<br>
+              &bull; <span class="section-ref">Civil Marriage Act, 2005</span><br>
+              &bull; <span class="section-ref">Marriage (Prohibited Degrees) Act, 1990</span>
+            </td>
+            <td>
+              <strong>"Solemnization" + "Property &amp; Civil Rights"</strong><br>
+              &bull; <span class="section-ref">Marriage Act, RSO 1990</span> (ceremony)<br>
+              &bull; <span class="section-ref">Family Law Act, RSO 1990</span><br>
+              &nbsp;&nbsp;&bull; Property equalization<br>
+              &nbsp;&nbsp;&bull; Domestic contracts<br>
+              &nbsp;&nbsp;&bull; Spousal &amp; child support<br>
+              &bull; <span class="section-ref">Children's Law Reform Act, RSO 1990</span><br>
+              &nbsp;&nbsp;&bull; Parenting (non-divorce)
+            </td>
+          </tr>
+        </table>
+        <div class="warning">
+          <strong>Conflict?</strong> Federal paramountcy &mdash; if DA and FLA conflict, federal wins (requires "express contradiction").
+        </div>
+        <div class="highlight">
+          <strong>Exam trigger:</strong> Divorcing? &rarr; DA applies. Just separating / common-law? &rarr; FLA/CLRA applies. Both can apply simultaneously for different issues.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">1B. Dispute Resolution Processes</span>
+      <span class="badge badge-statute">Statute</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong>Spectrum (least &rarr; most adversarial):</strong></p>
+        <p>1. <strong>Negotiation</strong> &rarr; 2. <strong>Mediation</strong> &rarr; 3. <strong>Collaborative Law</strong> &rarr; 4. <strong>Arbitration</strong> &rarr; 5. <strong>Litigation</strong></p>
+        <p><span class="section-ref">DA s. 7.3:</span> Parties <em>shall</em> try FDR process (unless inappropriate).</p>
+        <p><span class="section-ref">DA s. 7.7(2):</span> Lawyers MUST encourage FDR and inform of family justice services.</p>
+        <div class="warning"><strong>Exception:</strong> Where family violence exists, mediation/collaboration may be inappropriate due to power imbalance.</div>
+      </div>
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is which dispute resolution process is appropriate."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under DA s. 7.3, parties shall try FDR unless inappropriate. DA s. 7.7(2) requires lawyers to encourage FDR. Where FV exists, mediation may be inappropriate (power imbalance).</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Is there violence? Power imbalance? Urgency? Complexity?]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, [process] is most appropriate because..."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">1C. Family Violence</span>
+      <span class="badge badge-case">Case Law</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong>Definition (DA s. 2(1)):</strong> Violent, threatening, or coercive/controlling conduct causing fear or harm.</p>
+        <p><strong>Includes:</strong> Physical abuse, sexual abuse, psychological abuse, <strong>coercive control</strong> (verbal abuse, isolation, financial control, false allegations), exposure of child to violence.</p>
+        <p><span class="case-name">Ahluwalia v Ahluwalia</span> (2022 ONSC 1303) &mdash; Established <strong>tort of family violence</strong>; coercive control = actionable civil harm.</p>
+        <div class="highlight">
+          <strong>FV is a CROSS-CUTTING issue. It affects:</strong><br>
+          &bull; Dispute Resolution &rarr; FDR may be inappropriate<br>
+          &bull; Property &rarr; Affects negotiation of agreements<br>
+          &bull; Support &rarr; May affect self-sufficiency<br>
+          &bull; Agreements &rarr; May ground unconscionability/duress<br>
+          &bull; Parenting &rarr; s. 16(3)(j) mandatory factor<br>
+          &bull; Child Support &rarr; May affect enforcement<br>
+          &bull; Relocation &rarr; Victim may need to move for safety
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">1D. Marriage &mdash; Validity</span>
+      <span class="badge badge-test">Test</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Void vs Voidable</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <table class="info-table">
+              <tr><th></th><th>Void (ab initio)</th><th>Voidable</th></tr>
+              <tr><td><strong>Effect</strong></td><td>Marriage NEVER existed</td><td>Valid UNTIL court invalidates</td></tr>
+              <tr><td><strong>Examples</strong></td><td>Bigamy, prohibited degrees</td><td>Lack of consent, non-consummation, fraud</td></tr>
+              <tr><td><strong>Who challenges</strong></td><td>Anyone, anytime</td><td>Only the affected party</td></tr>
+              <tr><td><strong>Property rights?</strong></td><td>NO (never married)</td><td>YES (until annulled)</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Essential Validity (Capacity) &mdash; 6 Federal Requirements</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>1. Two people</strong> &mdash; <span class="case-name">Hyde v Hyde</span> (1866) originally "one man one woman" &rarr; <span class="case-name">Halpern v Toronto</span> (2003 ONCA) struck down &rarr; <span class="case-name">Reference re Same-Sex Marriage</span> (2004 SCC) "living tree" &rarr; Civil Marriage Act (2005): "two persons"</p>
+            <p><strong>2. Consent</strong> (voluntary + informed) &mdash; <span class="case-name">Tanti v Tanti</span> (2020): consent + understanding required. <span class="case-name">M.A. v B.B.</span> (2018): fraud can vitiate. <span class="case-name">Grewal v Kaur</span> (2009): forced marriages.</p>
+            <p><strong>3. Ability to consummate</strong> (voidable if unable) &mdash; <span class="case-name">Rae v Rae</span> (1944): incapacity not mere refusal. <span class="case-name">Kaur v Singh</span> (2021 BCCA).</p>
+            <p><strong>4. Outside prohibited degrees</strong> &mdash; Consanguinity (blood) + Affinity (marriage-created). Marriage (Prohibited Degrees) Act, 1990.</p>
+            <p><strong>5. No prior existing marriage</strong> (no bigamy) &mdash; <span class="case-name">Larsen, Re</span> (1980).</p>
+            <p><strong>6. Appropriate age</strong> &mdash; Province sets minimum (typically 18; 16 with consent).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Formal Validity (Solemnization) &mdash; Provincial</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>Licence or permit &bull; Authority of marriage officer &bull; Parental consent (if minor) &bull; Witnesses &bull; Registration</p>
+            <p><strong>Cure for formal defects = Good Faith</strong> &mdash; <span class="case-name">Lalonde v Agha</span> (2021): If parties acted in good faith, formal defect doesn't void marriage.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is whether a valid marriage exists."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Marriage requires essential validity (federal: 2 persons, consent, consummation ability, outside prohibited degrees, no prior marriage, age) AND formal validity (provincial: licence, officer, witnesses). Void = never existed; voidable = valid until annulled. Good faith cures formal defects (<em>Lalonde v Agha</em>).</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Check each requirement against facts]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, the marriage is [valid/void/voidable] because..."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== PILLAR 2: DIVORCE ==================== -->
+<div class="pillar" id="p2">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">2A. Grounds for Divorce &mdash; DA s. 8(1)</span>
+      <span class="badge badge-statute">Statute</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong>Breakdown of marriage (3 grounds):</strong></p>
+        <p><strong>1. Separation &ge; 1 year</strong> <span class="section-ref">s. 8(2)(a)</span> &larr; <em>94.6% of all divorces use this</em><br>
+        &bull; Living "separate and apart" (can be under same roof)<br>
+        &bull; 90-day reconciliation attempt allowed without restarting clock<br>
+        &bull; Date of separation = triggers valuation date for property</p>
+        <p><strong>2. Adultery</strong> <span class="section-ref">s. 8(2)(b)</span> &larr; rarely used; cannot use own adultery</p>
+        <p><strong>3. Cruelty</strong> <span class="section-ref">s. 8(2)(b)(ii)</span> &larr; rarely used<br>
+        &bull; Physical/mental cruelty making cohabitation intolerable<br>
+        &bull; <span class="case-name">McPhail v McPhail</span> (2001 BCCA): Courts SHOULD use separation ground &mdash; cruelty inflames hostility, serves no practical purpose</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">2B. Religious Barriers &mdash; DA s. 21.1</span>
+      <span class="badge badge-case">Case Law</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><span class="case-name">Marcovitz v Bruker</span> (2007 SCC): Husband promised GET (Jewish divorce) then refused &rarr; $60,000 damages. Court can refuse to process divorce if party won't remove religious barriers.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">FIRAC Template &mdash; Divorce</span>
+      <span class="badge badge-template">Template</span>
+    </div>
+    <div class="node-body">
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is whether [party] is entitled to a divorce."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under DA s. 8(1), divorce requires proof of marriage breakdown. The most common ground is separation &ge; 1 year (s. 8(2)(a)). Per <em>McPhail</em>, courts prefer separation over fault grounds. 90-day reconciliation attempt does not restart the clock.</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [When did they separate? 1+ year apart? Any reconciliation?]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, divorce [will/will not] be granted because..."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== PILLAR 3: PROPERTY ==================== -->
+<div class="pillar" id="p3">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">3A. Threshold &mdash; Who Gets Property Rights?</span>
+      <span class="badge badge-tip">Key</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Status</th><th>Property Regime</th><th>Key Authority</th></tr>
+          <tr><td><strong>Married</strong></td><td>Full FLA equalization</td><td>FLA Part I</td></tr>
+          <tr><td><strong>Common-law</strong></td><td>NO equalization. Must use unjust enrichment / constructive trust / JFV</td><td><span class="case-name">Nova Scotia v Walsh</span> (2002 SCC): exclusion = constitutional</td></tr>
+          <tr><td><strong>Domestic contract</strong></td><td>Agreement may override defaults</td><td>Subject to s. 56 FLA enforceability</td></tr>
+        </table>
+        <div class="warning"><strong>Common trap:</strong> Treating common-law like married. They have COMPLETELY different property regimes.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">3B. Unjust Enrichment &amp; JFV (Common-Law)</span>
+      <span class="badge badge-test">Test</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Unjust Enrichment &mdash; 3-Part Test (Kerr v Baranow, 2011 SCC)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>1. ENRICHMENT</strong> of the defendant &mdash; Did they receive a benefit? (money, services, property appreciation)</p>
+            <p><strong>2. CORRESPONDING DEPRIVATION</strong> of the claimant &mdash; Did claimant suffer a loss? Domestic services NOT presumed gratuitous.</p>
+            <p><strong>3. NO JURISTIC REASON</strong> &mdash; Two-stage analysis:<br>
+            &nbsp;&nbsp;Stage 1: Claimant shows no established reason (contract, gift, statute, disposition of law)<br>
+            &nbsp;&nbsp;Stage 2: Defendant points to residual policy reasons to allow enrichment</p>
+            <p><strong>If all 3 met &rarr; Remedy:</strong><br>
+            (a) <strong>Monetary award</strong> (preferred if quantifiable)<br>
+            (b) <strong>Constructive trust</strong> (proprietary &mdash; if monetary inadequate; requires link to specific property)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Joint Family Venture &mdash; 4-Factor Test</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>1. MUTUAL EFFORT</strong> &mdash; Did both contribute to shared goals?</p>
+            <p><strong>2. ECONOMIC INTEGRATION</strong> &mdash; Were finances merged/shared?</p>
+            <p><strong>3. ACTUAL INTENT</strong> &mdash; Did they intend a joint enterprise?</p>
+            <p><strong>4. FAMILY PRIORITY</strong> &mdash; Did family needs drive decisions?</p>
+            <p><strong>If JFV exists &rarr;</strong> Remedy = proportionate share of accumulated wealth (NOT automatic 50/50).</p>
+            <p><span class="case-name">Vanasse v Seguin</span>: $8.5M vs $322K &rarr; JFV gave proportionate share.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is whether [claimant] has an equitable property interest."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under <em>Kerr v Baranow</em> (2011 SCC), unjust enrichment requires: (1) enrichment, (2) corresponding deprivation, (3) no juristic reason. If established, remedy is monetary or constructive trust. Where parties operated as a JFV (mutual effort, economic integration, actual intent, family priority), remedy is proportionate share. Domestic services are NOT presumed gratuitous.</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Go through each element with facts; assess JFV factors]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, [claimant] is [entitled/not entitled] to [monetary award / constructive trust / JFV share]."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">3C. Equalization (Married Spouses &mdash; FLA Part I)</span>
+      <span class="badge badge-formula">Formula</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">NFP Formula</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <div class="highlight">
+              <strong>NFP =</strong> [Property at Valuation Date] &minus; [Debts at VD] &minus; [Property at DOM (except MH)] &minus; [Excluded property s.4(2)]<br><br>
+              <strong>Equalization Payment =</strong> (Higher NFP &minus; Lower NFP) &divide; 2<br><br>
+              NFP cannot be less than zero <span class="section-ref">(s. 4(5))</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Key Dates</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <table class="info-table">
+              <tr><th>Date</th><th>Meaning</th><th>Why It Matters</th></tr>
+              <tr><td>Date of Marriage (DOM)</td><td>Starting point</td><td>Deduct pre-marriage assets (except MH)</td></tr>
+              <tr><td>Valuation Date (VD)</td><td>Usually = separation</td><td>All property valued as of this date</td></tr>
+              <tr><td>Date of Separation (DOS)</td><td>Relationship ends</td><td>Triggers equalization</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Excluded Property &mdash; s. 4(2) FLA</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>(a) Property (except MH) owned at DOM &rarr; <strong>Mittler Rule:</strong> Only DOM value deducted; appreciation DOES equalize</p>
+            <p>(b) Gifts from third parties during marriage (if donor intended exclusion)</p>
+            <p>(c) Inheritances</p>
+            <p>(d) Damages for personal injuries / nervous shock</p>
+            <p>(e) Insurance proceeds (life insurance, personal injury)</p>
+            <p>(f) Property excluded by domestic contract</p>
+            <p>(g) Property <strong>traceable</strong> to any of the above</p>
+            <div class="warning"><strong>CRITICAL EXCEPTION: MATRIMONIAL HOME</strong><br>
+            MH CANNOT be excluded even if owned before marriage <span class="section-ref">(s. 4(1))</span>. If MH owned at DOM &rarr; full value at VD goes into NFP (no DOM deduction).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Matrimonial Home &mdash; Special Rules (s. 17-23)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Definition:</strong> Property ordinarily occupied as family residence at DOS. Can have &gt;1 MH.</p>
+            <p><strong>Cannot be excluded</strong> even if owned before marriage, inherited, or gifted.</p>
+            <p><strong>Equal right to possession</strong> <span class="section-ref">(s. 19)</span> regardless of title.</p>
+            <p><strong>Cannot sell/mortgage</strong> without spouse's consent <span class="section-ref">(s. 21)</span>.</p>
+            <p><strong>Exclusive possession order</strong> <span class="section-ref">(s. 24)</span>: Court can give one spouse exclusive right. Factors: best interest of children, financial position, other housing, violence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Unequal Division &mdash; Unconscionability s. 5(6)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><span class="case-name">Serra v Serra</span>: Must "<strong>shock the conscience</strong>" of the court. Very high bar.</p>
+            <p><strong>8 Factors:</strong></p>
+            <p>(a) Failure to disclose debts/liabilities at DOM<br>
+            (b) Debts recklessly incurred<br>
+            (c) Part of NFP is gift from other spouse<br>
+            (d) Intentional/reckless depletion of NFP<br>
+            (e) NFP disproportionately large vs. cohabitation (&lt; 5 years)<br>
+            (f) Unreasonably large debts for family support<br>
+            (g) Written agreement between spouses<br>
+            (h) Any other circumstance relating to property</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is the equalization of net family property."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under FLA s. 5(1), the spouse with higher NFP pays half the difference. NFP = property at VD &minus; debts &minus; property at DOM (except MH) &minus; excluded property (s. 4(2)). NFP &ge; 0 (s. 4(5)). MH cannot be excluded (s. 4(1)). Mittler Rule: pre-marriage assets deducted at DOM value only. Unequal division requires unconscionability (<em>Serra</em>: "shock the conscience") under s. 5(6).</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Calculate each NFP step by step; address MH; excluded property; any s. 5(6) arguments]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, equalization payment = $[X]."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== PILLAR 4: SPOUSAL SUPPORT ==================== -->
+<div class="pillar" id="p4">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">4A. Entitlement &mdash; Three Bases (Bracklow, 1999 SCC)</span>
+      <span class="badge badge-test">Test</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Basis 1: Compensatory (Moge v Moge, 1992 SCC)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>Marriage created economic advantage for one spouse, disadvantage for the other.</p>
+            <p>Spouse sacrificed career, education, earning capacity for family.</p>
+            <p>"Feminization of poverty" &mdash; women's income drops ~30% post-divorce.</p>
+            <p>Even childless marriages qualify if spouse curtailed career.</p>
+            <p><strong>Rejected:</strong> "Clean break" model; strict self-sufficiency.</p>
+            <p><strong>Key:</strong> Link between marriage roles and current disadvantage.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Basis 2: Non-Compensatory / Needs-Based (Bracklow)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>Economic hardship <em>independent</em> of marriage causation.</p>
+            <p>Illness, disability, inability to be self-sufficient.</p>
+            <p>Based on interdependence during marriage.</p>
+            <p>"No magical cut-off dates" for duration.</p>
+            <p><strong>Key:</strong> Need exists regardless of why.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Basis 3: Contractual</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>From express agreement (separation agreement, marriage contract, waiver).</p>
+            <p>Subject to <span class="case-name">Miglin</span> test for enforceability.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="leaf">
+        <p><strong>Four Statutory Objectives</strong> <span class="section-ref">(DA s. 15.2(6)):</span></p>
+        <p>(a) Recognize economic advantages/disadvantages from marriage or breakdown<br>
+        (b) Apportion financial consequences of child care<br>
+        (c) Relieve economic hardship from marriage breakdown<br>
+        (d) Promote self-sufficiency within a <em>reasonable</em> period</p>
+        <div class="warning">Self-sufficiency is ONE objective, NOT paramount (<em>Moge</em>).</div>
+        <p><span class="section-ref">DA s. 15.2(5):</span> Misconduct is NOT relevant (<span class="case-name">Leskun v Leskun</span>, 2006 SCC).</p>
+        <p><span class="section-ref">FLA s. 29:</span> "Spouse" for support = 3+ years cohabitation OR permanence with child.</p>
+      </div>
+
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is whether [party] is entitled to spousal support."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under <em>Bracklow</em> (1999 SCC), entitlement arises on three bases: (1) compensatory &mdash; economic disadvantage from marriage roles (<em>Moge</em>); (2) non-compensatory &mdash; needs-based hardship; (3) contractual. DA s. 15.2(6) sets four objectives. Misconduct irrelevant (s. 15.2(5); <em>Leskun</em>).</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Which basis? What disadvantage/need? Roles during marriage?]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, [party] [is/is not] entitled on [basis] grounds."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">4B. Quantum &mdash; SSAG Guidelines</span>
+      <span class="badge badge-formula">Formula</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <div class="highlight">
+          <strong>Without Children Formula:</strong><br>
+          <strong>Amount:</strong> 1.5% to 2% of income difference &times; years of cohabitation<br>
+          <strong>Duration:</strong> 0.5 to 1.0 years per year of cohabitation<br>
+          <strong>Rule of 65:</strong> If age + years &ge; 65 &rarr; indefinite<br>
+          <strong>20+ year marriages</strong> &rarr; usually indefinite<br>
+          <strong>Cap:</strong> Recipient shouldn't receive &gt; 50% of combined gross income
+        </div>
+        <p><strong>With Children:</strong> Different formula (lower amounts; child support priority).</p>
+        <p><strong>Restructuring:</strong> Front-load, back-load, or lump sum (changes form, not total value).</p>
+      </div>
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Higher end of range</th><th>Lower end of range</th></tr>
+          <tr><td>Long marriage, traditional roles, significant sacrifice, health issues, older age, custodial responsibility, large income gap</td>
+          <td>Short marriage, dual income, minimal sacrifice, young/healthy/employable, no children, small income gap</td></tr>
+        </table>
+      </div>
+      <div class="leaf">
+        <p><strong>Variation</strong> <span class="section-ref">(DA s. 17(4.1)):</span> Requires <strong>material change in circumstances</strong> since original order (unforeseen at time of order). E.g., job loss, retirement, illness, remarriage.</p>
+      </div>
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is the quantum and duration of spousal support."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> The SSAG provide ranges: without children, 1.5-2% of income difference &times; years for amount; 0.5-1.0 years per year for duration. Rule of 65 (age + years &ge; 65) = indefinite. Court considers all DA s. 15.2(6) objectives.</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Calculate range; identify factors pushing high/low; state specific amount]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, support of $[X]/month for [duration]."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== PILLAR 5: DOMESTIC AGREEMENTS ==================== -->
+<div class="pillar" id="p5">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">5A. Types of Agreements</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Type</th><th>When</th><th>Covers</th><th>Limitation</th></tr>
+          <tr><td>Marriage Contract (pre-nup)</td><td>Before/during marriage</td><td>Property, support, education</td><td>CANNOT deal with custody</td></tr>
+          <tr><td>Cohabitation Agreement</td><td>Before/during cohabitation</td><td>Same</td><td>Becomes marriage contract if they marry</td></tr>
+          <tr><td>Separation Agreement</td><td>At/after separation</td><td>Everything</td><td>Most common; broadest</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">5B. Formalities &mdash; s. 55(1) FLA</span>
+      <span class="badge badge-statute">Statute</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p>Must be: (1) In <strong>writing</strong>, (2) <strong>Signed</strong> by both parties, (3) <strong>Witnessed</strong>.</p>
+        <div class="warning">Missing any = agreement is VOID.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">5C. Setting Aside &mdash; s. 56(4) FLA</span>
+      <span class="badge badge-test">Test</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong>(a)</strong> Failed to disclose <strong>significant</strong> assets, debts, liabilities &mdash; <span class="case-name">LeVan v LeVan</span> (2008): deliberate non-disclosure = set aside. <span class="case-name">Leskun</span>: "Non-disclosure is the cancer of matrimonial property litigation."</p>
+        <p><strong>(b)</strong> Did not <strong>understand</strong> the nature or consequences &mdash; ILA is strongest evidence but not mandatory.</p>
+        <p><strong>(c)</strong> Otherwise invalid under <strong>contract law</strong> &mdash; duress, undue influence, unconscionability, incapacity.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">5D. Miglin Test (Spousal Support in Agreements)</span>
+      <span class="badge badge-case">Case Law</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><span class="case-name">Miglin v Miglin</span> (2003 SCC) &mdash; Two-stage test:</p>
+        <p><strong>Stage 1: FORMATION</strong> (How was it negotiated?)<br>
+        &bull; Vulnerability or exploitation?<br>
+        &bull; Professional assistance (lawyers)?<br>
+        &bull; Full financial disclosure?<br>
+        &bull; Pressure, urgency, duress?<br>
+        &bull; Significant power imbalance?</p>
+        <p><strong>Stage 2: APPLICATION</strong> (Is it still fair?)<br>
+        &bull; Still substantially complies with DA objectives?<br>
+        &bull; Current circumstances reasonably anticipated?<br>
+        &bull; Material change since signing?<br>
+        &bull; Unconscionable NOW?</p>
+        <p><strong>Result:</strong> "Significant weight" to fairly negotiated agreements UNLESS formation was unfair OR application now unconscionable.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">5E. Hartshorne &amp; Rick v Brandsema</span>
+      <span class="badge badge-case">Case Law</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><span class="case-name">Hartshorne v Hartshorne</span> (2004 SCC):<br>
+        &bull; Marriage agreements get <strong>less deference</strong> than separation agreements<br>
+        &bull; Must be substantively fair at <strong>time of application</strong><br>
+        &bull; ILA is "important" but NOT an "anodyne" (cure-all)<br>
+        &bull; Wife told agreement was "grossly unfair" &rarr; signed anyway &rarr; court enforced</p>
+        <p><span class="case-name">Rick v Brandsema</span> (2009 SCC):<br>
+        &bull; Unconscionability: inequality of bargaining power + improvident agreement + exploitation<br>
+        &bull; ILA is NOT a cure when party <strong>cannot meaningfully use</strong> the advice (mental condition, coercion)<br>
+        &bull; Full financial disclosure anchors "true bargain"</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">FIRAC Template &mdash; Domestic Agreement</span>
+      <span class="badge badge-template">Template</span>
+    </div>
+    <div class="node-body">
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is whether the [agreement] is enforceable."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under FLA s. 55(1), agreement must be written, signed, witnessed. Under s. 56(4), can be set aside for: (a) non-disclosure, (b) failure to understand, (c) contract law invalidity. For spousal support, <em>Miglin</em> two-stage: (1) formation fairness; (2) application fairness. Per <em>Hartshorne</em>, ILA not a cure-all. Per <em>Rick</em>, unconscionability can override ILA.</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Check formalities; s. 56(4) grounds; Miglin stages; ILA adequacy]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, the agreement is [enforceable / set aside] because..."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== PILLAR 6: PARENTING ==================== -->
+<div class="pillar" id="p6">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">6A. 2021 Terminology Change</span>
+      <span class="badge badge-tip">Key</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Old (pre-2021)</th><th>New (post-2021)</th></tr>
+          <tr><td>"Custody"</td><td>"Decision-making responsibility"</td></tr>
+          <tr><td>"Access"</td><td>"Parenting time"</td></tr>
+          <tr><td>"Custody parent"</td><td>"Parent with decision-making"</td></tr>
+          <tr><td>"Access parent"</td><td>"Parent with parenting time"</td></tr>
+        </table>
+        <div class="warning">Use NEW terminology in your exam. Shows you know the current law.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">6B. Best Interest of the Child &mdash; s. 16(3) DA</span>
+      <span class="badge badge-test">Test</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong>THE ONLY TEST.</strong> All factors weighed; no single factor is determinative.</p>
+        <p>(a) Child's <strong>needs</strong> given age &amp; development<br>
+        (b) <strong>Relationships</strong> with each parent, siblings, grandparents<br>
+        (c) Each parent's <strong>willingness to support</strong> other parent's relationship ("friendly parent")<br>
+        (d) <strong>History of care</strong> (status quo principle)<br>
+        (e) Child's <strong>views and preferences</strong> (weight by maturity; UNCRC Art. 12)<br>
+        (f) <strong>Cultural, linguistic, religious</strong> upbringing<br>
+        (g) <strong>Plans</strong> for child's care<br>
+        (h) Ability to <strong>communicate and cooperate</strong><br>
+        (i)-(k) <strong>Family violence</strong> (MANDATORY &mdash; see below)<br>
+        (l) Any other relevant factor</p>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Family Violence &mdash; s. 16(3)(j) + s. 16(4)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>When FV alleged, court MUST consider:</strong></p>
+            <p>&bull; Nature, seriousness, frequency of violence<br>
+            &bull; Whether child was directly or indirectly exposed<br>
+            &bull; Physical, emotional, psychological harm to child<br>
+            &bull; Whether pattern or isolated incident<br>
+            &bull; Steps taken to prevent further violence</p>
+            <p><span class="case-name">Barendregt v Grebliunas</span> (2022 SCC): Even ONE incident raises safety concerns. Judicial notice of IPV effects (no expert needed). Child's welfare "inextricably intertwined" with abused parent's wellbeing.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Key Principles</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p><strong>Status quo:</strong> Courts reluctant to disrupt stable arrangements. BUT self-help (unilaterally taking children) gets less weight.</p>
+            <p><strong>Tender years doctrine:</strong> REJECTED. No presumption young children belong with mother. Gender-neutral.</p>
+            <p><strong>Maximum contact (s. 16(6)):</strong> Child should have as much time with each parent as consistent with BIC. NOT absolute &mdash; safety trumps contact (<span class="case-name">Barendregt</span>).</p>
+            <p><span class="case-name">Van de Perre v Edwards</span> (2001 SCC): Race is relevant but NOT determinative.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is the parenting arrangement in the best interest of the child."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under DA s. 16(1), the sole consideration is best interest, per s. 16(3) factors: needs, relationships, willingness to support other parent, history of care, child's views, FV (mandatory &mdash; s. 16(3)(j)). <em>Barendregt</em> (2022 SCC): even one FV incident raises safety concerns. Maximum contact (s. 16(6)) qualified by safety. Status quo carries weight but not if by self-help.</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Walk through each relevant factor; address FV if present; weigh factors]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, [sole/joint] decision-making with [schedule] serves the child's best interest."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">6C. Relocation &mdash; Barendregt (2022 SCC)</span>
+      <span class="badge badge-test">Test</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong>Notice:</strong> 60 days written notice <span class="section-ref">(DA s. 16.9)</span></p>
+        <p><strong>Burden of proof</strong> <span class="section-ref">(s. 16.93):</span></p>
+        <p>&bull; Relocating parent has <em>majority</em> time &rarr; OTHER parent must show NOT in BIC<br>
+        &bull; Equal/near-equal time &rarr; RELOCATING parent must show IS in BIC<br>
+        &bull; Minority time &rarr; relocating parent bears burden</p>
+        <p><strong>Factors</strong> <span class="section-ref">(s. 16.92):</span> Reasons for move, impact on child, existing arrangements, whether notice given, reasonable access plan.</p>
+        <p><strong>FV is relevant:</strong> Victim relocating for safety = strong justification. Improving abused parent's condition = enriches child's environment.</p>
+      </div>
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is whether [parent] should be permitted to relocate."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under DA s. 16.9, 60 days notice required. Burden depends on existing time (s. 16.93). Factors: reasons, impact, existing arrangements, FV (<em>Barendregt</em>). Child's welfare tied to nurturing parent's wellbeing.</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Who has majority time? Reason for move? Impact on access? FV? Access plan?]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, relocation [should/should not] be permitted."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== PILLAR 7: CHILD SUPPORT ==================== -->
+<div class="pillar" id="p7">
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">7A. "Child of the Marriage" &mdash; DA s. 2(1)</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p>Under age of majority AND has not withdrawn from parental charge<br>
+        OR over age of majority but UNABLE to withdraw due to: illness, disability, or other cause (e.g., full-time post-secondary)</p>
+        <p>Includes: biological, adopted, step-children treated as children of the marriage.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">7B. Table Amount (Baseline)</span>
+      <span class="badge badge-formula">Formula</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <div class="highlight">
+          Payor's annual gross income &rarr; Cross-reference with # of children &rarr; Ontario table &rarr; Monthly amount<br><br>
+          This is the <strong>presumptive</strong> amount. Departure requires justification.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">7C. Adjustments</span>
+      <span class="badge badge-test">Test</span>
+    </div>
+    <div class="node-body">
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Shared Custody &mdash; s. 9 (40% Rule)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>If EACH parent has child &ge; 40% of the time:</p>
+            <p>&bull; Consider both parents' table amounts<br>
+            &bull; Consider increased costs of shared custody<br>
+            &bull; Consider child's needs &amp; means of each parent<br>
+            &bull; NOT simply offsetting table amounts</p>
+            <div class="warning"><strong>Major litigation driver</strong> &mdash; financial incentive to reach 40% threshold.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Split Custody &mdash; s. 8</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>Each parent has custody of one or more children. Each pays table amount for children with other parent. Set off &mdash; lower pays difference.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">High Income &mdash; s. 4 (&gt;$150K)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>Table applies to first $150K. Above that &rarr; court has discretion (can apply table % to excess or determine based on child's needs).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="node l2">
+        <div class="node-header" onclick="toggle(this.parentElement)">
+          <span class="arrow">&#9654;</span>
+          <span class="label">Undue Hardship &mdash; s. 10 (Very High Bar)</span>
+        </div>
+        <div class="node-body">
+          <div class="leaf">
+            <p>Must show: (a) Hardship from guidelines amount (high marriage debts, high access costs, duty to support another person/child) AND (b) Household standard of living LOWER than other household.</p>
+            <p>Even if proven &rarr; court MAY (not must) depart.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">7D. Special/Extraordinary Expenses &mdash; s. 7</span>
+      <span class="badge badge-formula">Formula</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p><strong>Types:</strong> Childcare, health costs, extraordinary extracurriculars, post-secondary, private school.</p>
+        <div class="highlight">
+          <strong>Formula:</strong> Each parent pays PROPORTIONAL to their share of combined income.<br>
+          E.g., Parent A earns 60% &rarr; pays 60% of expense. NOT 50/50 unless equal incomes.
+        </div>
+        <p>Must be "necessary" and "reasonable."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">7E. Imputing Income</span>
+      <span class="badge badge-case">Case Law</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <p>Court can impute income when parent is: intentionally unemployed/underemployed, diverting income (to corporation/trust), property not generating income, failed to provide info, unreasonable deductions.</p>
+        <p><span class="case-name">Colucci v Colucci</span> (2021 SCC): Framework for income imputation.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">FIRAC Template &mdash; Child Support</span>
+      <span class="badge badge-template">Template</span>
+    </div>
+    <div class="node-body">
+      <div class="firac-box">
+        <div class="firac-line"><span class="firac-label">I:</span> "The issue is the quantum of child support."</div>
+        <div class="firac-line"><span class="firac-label">R:</span> Under the Guidelines, the table amount is presumptive based on payor's income and # of children. Adjustments: shared custody (s. 9, 40%), split custody (s. 8), high income (s. 4, &gt;$150K), undue hardship (s. 10). Special expenses (s. 7) shared proportionally. Income may be imputed (<em>Colucci</em>, 2021 SCC).</div>
+        <div class="firac-line"><span class="firac-label">A:</span> [Income &rarr; table amount &rarr; adjustments &rarr; s. 7 expenses &rarr; imputation?]</div>
+        <div class="firac-line"><span class="firac-label">C:</span> "Therefore, child support = $[table]/month + $[s.7 expenses]."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== CASE LAW REFERENCE ==================== -->
+<div class="pillar" id="cases">
+  <h2 style="margin-bottom: 16px; color: var(--yellow);">Case Law Quick Reference</h2>
+
+  <div class="node l1 open">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Marriage &amp; Foundations</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Case</th><th>Ratio (1-2 lines)</th></tr>
+          <tr><td><span class="case-name">Hyde v Hyde</span> (1866)</td><td>Original definition: "voluntary union for life of one man and one woman." Now superseded.</td></tr>
+          <tr><td><span class="case-name">Halpern v Toronto</span> (2003 ONCA)</td><td>Opposite-sex requirement violates Charter s. 15. Same-sex marriage recognized.</td></tr>
+          <tr><td><span class="case-name">Reference re Same-Sex Marriage</span> (2004 SCC)</td><td>Constitution is a "living tree." Federal power to define marriage includes same-sex.</td></tr>
+          <tr><td><span class="case-name">Tanti v Tanti</span> (2020 ONSC)</td><td>Consent requires genuine understanding. Incapacity can vitiate.</td></tr>
+          <tr><td><span class="case-name">M.A. v B.B.</span> (2018 ONSC)</td><td>Fraud/misrepresentation going to nature of marriage can vitiate consent.</td></tr>
+          <tr><td><span class="case-name">Grewal v Kaur</span> (2009)</td><td>Forced/arranged marriages: consent must be genuine and free.</td></tr>
+          <tr><td><span class="case-name">Rae v Rae</span> (1944 Ont CA)</td><td>Non-consummation: must be incapacity, not mere refusal.</td></tr>
+          <tr><td><span class="case-name">Kaur v Singh</span> (2021 BCCA)</td><td>Ongoing relevance of consummation requirement debated.</td></tr>
+          <tr><td><span class="case-name">Larsen, Re</span> (1980)</td><td>Prior existing marriage = void (bigamy).</td></tr>
+          <tr><td><span class="case-name">Lalonde v Agha</span> (2021)</td><td>Good faith cures formal defects in solemnization.</td></tr>
+          <tr><td><span class="case-name">Ahluwalia v Ahluwalia</span> (2022 ONSC)</td><td>Established tort of family violence. Coercive control is actionable.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Divorce</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Case</th><th>Ratio</th></tr>
+          <tr><td><span class="case-name">McPhail v McPhail</span> (2001 BCCA)</td><td>Courts should decline cruelty ground when separation available. Fault inflames hostility.</td></tr>
+          <tr><td><span class="case-name">Marcovitz v Bruker</span> (2007 SCC)</td><td>Breach of promise to remove religious barrier (GET) = $60K damages. s. 21.1 DA.</td></tr>
+          <tr><td><span class="case-name">Nova Scotia v Walsh</span> (2002 SCC)</td><td>Excluding common-law from matrimonial property regime is constitutional. Respects choice not to marry.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Property &amp; Trusts</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Case</th><th>Ratio</th></tr>
+          <tr><td><span class="case-name">Murdoch v Murdoch</span> (1973 SCC)</td><td>Denied wife property despite 25 years of ranch labour. Sparked legislative reform.</td></tr>
+          <tr><td><span class="case-name">Becker v Pettkus</span> (1980 SCC)</td><td>Established constructive trust via unjust enrichment for unmarried partners.</td></tr>
+          <tr><td><span class="case-name">Kerr v Baranow</span> (2011 SCC)</td><td>LANDMARK: Unified unjust enrichment framework. Created JFV doctrine. Domestic services not gratuitous.</td></tr>
+          <tr><td><span class="case-name">Vanasse v Seguin</span> (2011 SCC)</td><td>JFV applied: proportionate share of wealth ($8.5M vs $322K).</td></tr>
+          <tr><td><span class="case-name">Serra v Serra</span></td><td>Unconscionability for unequal division = must "shock the conscience." Very high bar.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Spousal Support</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Case</th><th>Ratio</th></tr>
+          <tr><td><span class="case-name">Moge v Moge</span> (1992 SCC)</td><td>Compensatory model. Rejected "clean break." Self-sufficiency is one objective, not paramount.</td></tr>
+          <tr><td><span class="case-name">Bracklow v Bracklow</span> (1999 SCC)</td><td>Three bases for entitlement: compensatory, non-compensatory (needs), contractual. "No magical cut-off dates."</td></tr>
+          <tr><td><span class="case-name">M. v. H.</span> (1999 SCC)</td><td>Support obligations extend to same-sex couples.</td></tr>
+          <tr><td><span class="case-name">Leskun v Leskun</span> (2006 SCC)</td><td>Misconduct irrelevant to support. Non-disclosure = "cancer" of litigation.</td></tr>
+          <tr><td><span class="case-name">Pelech, Richardson, Caron</span> (1987 trilogy)</td><td>Strict "causal connection" test for overriding agreements. Now limited by Miglin.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Domestic Agreements</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Case</th><th>Ratio</th></tr>
+          <tr><td><span class="case-name">Miglin v Miglin</span> (2003 SCC)</td><td>Two-stage test: (1) formation fairness, (2) application fairness. Significant weight to fair agreements.</td></tr>
+          <tr><td><span class="case-name">Hartshorne v Hartshorne</span> (2004 SCC)</td><td>Marriage agreements: less deference. ILA not a cure-all. Must be substantively fair at application.</td></tr>
+          <tr><td><span class="case-name">Rick v Brandsema</span> (2009 SCC)</td><td>Unconscionability: inequality + improvidence + exploitation. ILA fails if party can't use advice.</td></tr>
+          <tr><td><span class="case-name">LeVan v LeVan</span> (2008)</td><td>Deliberate non-disclosure of assets = sufficient to set aside agreement.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Parenting &amp; Relocation</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Case</th><th>Ratio</th></tr>
+          <tr><td><span class="case-name">Young v Young</span> (1993 SCC)</td><td>Best interest is sole test. Access parent can expose child to values/religion.</td></tr>
+          <tr><td><span class="case-name">Van de Perre v Edwards</span> (2001 SCC)</td><td>Race is relevant but NOT determinative in best interest analysis.</td></tr>
+          <tr><td><span class="case-name">Barendregt v Grebliunas</span> (2022 SCC)</td><td>Relocation framework. Even 1 FV incident = safety concern. Child's welfare tied to nurturing parent. Trial judge deference.</td></tr>
+          <tr><td><span class="case-name">Gordon v Goertz</span> (1996 SCC)</td><td>Pre-2021 relocation test: material change + fresh BIC analysis. Now largely codified in DA.</td></tr>
+          <tr><td><span class="case-name">Strobridge v Strobridge</span> (1994)</td><td>OCL can represent child's views and preferences in proceedings.</td></tr>
+          <tr><td><span class="case-name">B.J.T. v J.D.</span> (2022 SCC)</td><td>Expert evidence in parenting cases: <em>White Burgess</em> framework applies.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="node l1">
+    <div class="node-header" onclick="toggle(this.parentElement)">
+      <span class="arrow">&#9654;</span>
+      <span class="label">Child Support</span>
+    </div>
+    <div class="node-body">
+      <div class="leaf">
+        <table class="info-table">
+          <tr><th>Case</th><th>Ratio</th></tr>
+          <tr><td><span class="case-name">Colucci v Colucci</span> (2021 SCC)</td><td>Framework for income imputation and retroactive child support. Moving toward negotiation culture.</td></tr>
+          <tr><td><span class="case-name">Contino v Leonelli-Contino</span> (2005 SCC)</td><td>s. 9 shared custody: not a simple set-off. Consider both tables, increased costs, child's needs.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== EXAM CHECKLIST ==================== -->
+<div class="pillar" id="checklist">
+  <h2 style="margin-bottom: 16px;">Exam Issue-Spotting Checklist</h2>
+  <p style="color: var(--text-muted); margin-bottom: 16px;">Go through this for every fact pattern. Check every box that applies, then write your FIRAC for each checked issue.</p>
+
+  <div class="leaf">
+    <div style="columns: 2; column-gap: 32px;">
+      <p><strong style="color: var(--accent-1);">STATUS &amp; JURISDICTION</strong><br>
+      <label><input type="checkbox"> Married? &rarr; Equalization + DA</label><br>
+      <label><input type="checkbox"> Common-law? &rarr; UE/JFV only</label><br>
+      <label><input type="checkbox"> Domestic contract? &rarr; Enforceability first</label><br>
+      <label><input type="checkbox"> Divorcing? &rarr; DA applies</label><br>
+      <label><input type="checkbox"> Just separating? &rarr; FLA/CLRA</label></p>
+
+      <p><strong style="color: var(--accent-2);">DIVORCE</strong><br>
+      <label><input type="checkbox"> When did they separate?</label><br>
+      <label><input type="checkbox"> 1+ year apart?</label><br>
+      <label><input type="checkbox"> Fault alleged? (usually irrelevant)</label><br>
+      <label><input type="checkbox"> Religious barriers?</label></p>
+
+      <p><strong style="color: var(--accent-3);">PROPERTY</strong><br>
+      <label><input type="checkbox"> List all assets + values</label><br>
+      <label><input type="checkbox"> Pre-marriage assets? (excluded except MH)</label><br>
+      <label><input type="checkbox"> Gifts / inheritances? (excluded s.4(2))</label><br>
+      <label><input type="checkbox"> Matrimonial home? (ALWAYS equalizes)</label><br>
+      <label><input type="checkbox"> Business interests? (valuation)</label><br>
+      <label><input type="checkbox"> Common-law? &rarr; UE not equalization</label><br>
+      <label><input type="checkbox"> Unconscionability argument? s.5(6)</label></p>
+
+      <p><strong style="color: var(--accent-4);">SPOUSAL SUPPORT</strong><br>
+      <label><input type="checkbox"> Income disparity?</label><br>
+      <label><input type="checkbox"> Career sacrifice? (compensatory)</label><br>
+      <label><input type="checkbox"> Health/disability? (non-compensatory)</label><br>
+      <label><input type="checkbox"> Agreement on support? (Miglin)</label><br>
+      <label><input type="checkbox"> How long married? (SSAG duration)</label><br>
+      <label><input type="checkbox"> Calculate SSAG range</label></p>
+
+      <p><strong style="color: var(--accent-5);">AGREEMENTS</strong><br>
+      <label><input type="checkbox"> Written, signed, witnessed?</label><br>
+      <label><input type="checkbox"> Full disclosure?</label><br>
+      <label><input type="checkbox"> ILA obtained?</label><br>
+      <label><input type="checkbox"> Duress/coercion?</label><br>
+      <label><input type="checkbox"> Still fair now? (Miglin Stage 2)</label></p>
+
+      <p><strong style="color: var(--accent-6);">PARENTING</strong><br>
+      <label><input type="checkbox"> Children's ages?</label><br>
+      <label><input type="checkbox"> Primary caregiver? (status quo)</label><br>
+      <label><input type="checkbox"> Family violence? (MANDATORY)</label><br>
+      <label><input type="checkbox"> Child's views? (by maturity)</label><br>
+      <label><input type="checkbox"> Relocation proposed?</label><br>
+      <label><input type="checkbox"> New partners?</label></p>
+
+      <p><strong style="color: var(--accent-7);">CHILD SUPPORT</strong><br>
+      <label><input type="checkbox"> Payor's income? &rarr; table amount</label><br>
+      <label><input type="checkbox"> Shared custody? (s.9, 40%)</label><br>
+      <label><input type="checkbox"> Split custody? (s.8)</label><br>
+      <label><input type="checkbox"> High income &gt;$150K? (s.4)</label><br>
+      <label><input type="checkbox"> Special expenses? (s.7)</label><br>
+      <label><input type="checkbox"> Adult child? (education)</label><br>
+      <label><input type="checkbox"> Income hiding? (imputation)</label></p>
+
+      <p><strong style="color: var(--accent-5);">FAMILY VIOLENCE (check EVERY question)</strong><br>
+      <label><input type="checkbox"> FV present?</label><br>
+      <label><input type="checkbox"> Type? (physical, coercive control)</label><br>
+      <label><input type="checkbox"> Children exposed?</label><br>
+      <label><input type="checkbox"> Impact on process choice?</label></p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .main -->
+
+<script>
+function toggle(node) {
+  node.classList.toggle('open');
+}
+
+function showPillar(tab) {
+  document.querySelectorAll('.pillar-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pillar').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  const target = tab.getAttribute('data-target');
+  document.getElementById(target).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function expandAll() {
+  const activePillar = document.querySelector('.pillar.active');
+  if (activePillar) {
+    activePillar.querySelectorAll('.node').forEach(n => n.classList.add('open'));
+  }
+}
+
+function collapseAll() {
+  const activePillar = document.querySelector('.pillar.active');
+  if (activePillar) {
+    activePillar.querySelectorAll('.node').forEach(n => n.classList.remove('open'));
+  }
+}
+
+function searchTree(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.node').forEach(node => {
+    node.classList.remove('search-hidden');
+  });
+  // Clear old highlights
+  document.querySelectorAll('.search-match').forEach(el => {
+    el.outerHTML = el.innerHTML;
+  });
+  if (!q) return;
+
+  // Show all pillars temporarily for search
+  const allPillars = document.querySelectorAll('.pillar');
+  const wasActive = document.querySelector('.pillar.active');
+
+  allPillars.forEach(p => {
+    const text = p.textContent.toLowerCase();
+    if (text.includes(q)) {
+      // Find and open matching nodes
+      p.querySelectorAll('.node').forEach(node => {
+        const nodeText = node.textContent.toLowerCase();
+        if (nodeText.includes(q)) {
+          node.classList.add('open');
+          // Open all parent nodes
+          let parent = node.parentElement;
+          while (parent) {
+            if (parent.classList && parent.classList.contains('node')) {
+              parent.classList.add('open');
+            }
+            parent = parent.parentElement;
+          }
+        }
+      });
+    }
+  });
+}
+</script>
+
+</body>
+</html>
