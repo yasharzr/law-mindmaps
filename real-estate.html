@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUR302 Real Estate Law - Master Mind Map</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent-1: #58a6ff;
+    --accent-2: #7ee787;
+    --accent-3: #d2a8ff;
+    --accent-4: #ffa657;
+    --accent-5: #ff7b72;
+    --accent-6: #79c0ff;
+    --accent-7: #f778ba;
+    --yellow: #e3b341;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* TOP NAV */
+  .top-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .top-bar h1 { font-size: 18px; font-weight: 700; color: var(--accent-1); white-space: nowrap; }
+  .top-bar .subtitle { font-size: 13px; color: var(--text-muted); }
+  .controls { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .controls button, .controls input {
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); padding: 6px 14px; border-radius: 6px;
+    font-size: 13px; cursor: pointer; transition: all 0.15s;
+  }
+  .controls button:hover { background: var(--border); }
+  .controls input { width: 200px; outline: none; }
+  .controls input:focus { border-color: var(--accent-1); }
+
+  /* PILLAR NAV */
+  .pillar-nav {
+    display: flex; gap: 0; overflow-x: auto;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .pillar-tab {
+    padding: 10px 18px; font-size: 13px; font-weight: 600;
+    cursor: pointer; border-bottom: 2px solid transparent;
+    transition: all 0.15s; white-space: nowrap; color: var(--text-muted);
+  }
+  .pillar-tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .pillar-tab.active { color: var(--accent-1); border-bottom-color: var(--accent-1); }
+  .pillar-tab[data-color="green"].active { color: var(--accent-2); border-bottom-color: var(--accent-2); }
+  .pillar-tab[data-color="purple"].active { color: var(--accent-3); border-bottom-color: var(--accent-3); }
+  .pillar-tab[data-color="orange"].active { color: var(--accent-4); border-bottom-color: var(--accent-4); }
+  .pillar-tab[data-color="red"].active { color: var(--accent-5); border-bottom-color: var(--accent-5); }
+  .pillar-tab[data-color="cyan"].active { color: var(--accent-6); border-bottom-color: var(--accent-6); }
+  .pillar-tab[data-color="pink"].active { color: var(--accent-7); border-bottom-color: var(--accent-7); }
+  .pillar-tab[data-color="yellow"].active { color: var(--yellow); border-bottom-color: var(--yellow); }
+  .pillar-tab[data-color="green"] { color: var(--text-muted); }
+  .pillar-tab[data-color="purple"] { color: var(--text-muted); }
+  .pillar-tab[data-color="orange"] { color: var(--text-muted); }
+  .pillar-tab[data-color="red"] { color: var(--text-muted); }
+  .pillar-tab[data-color="cyan"] { color: var(--text-muted); }
+  .pillar-tab[data-color="pink"] { color: var(--text-muted); }
+  .pillar-tab[data-color="yellow"] { color: var(--text-muted); }
+
+  /* MAIN */
+  .main { padding: 24px; max-width: 1100px; margin: 0 auto; }
+
+  .pillar { display: none; animation: fadeIn 0.2s ease; }
+  .pillar.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* TREE NODES */
+  .node { margin: 4px 0; border-left: 2px solid var(--border); margin-left: 0; }
+  .node-header {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 8px 12px; cursor: pointer; border-radius: 6px;
+    transition: background 0.1s; user-select: none;
+  }
+  .node-header:hover { background: rgba(255,255,255,0.04); }
+  .node-header .arrow {
+    flex-shrink: 0; width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: var(--text-muted);
+    transition: transform 0.15s; margin-top: 2px;
+  }
+  .node.open > .node-header .arrow { transform: rotate(90deg); }
+  .node-header .label { font-weight: 600; font-size: 15px; }
+  .node-header .badge {
+    font-size: 10px; padding: 1px 7px; border-radius: 10px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+    flex-shrink: 0; margin-top: 3px;
+  }
+  .badge-case { background: rgba(210,168,255,0.15); color: var(--accent-3); }
+  .badge-statute { background: rgba(126,231,135,0.15); color: var(--accent-2); }
+  .badge-rule { background: rgba(88,166,255,0.15); color: var(--accent-1); }
+  .badge-test { background: rgba(255,166,87,0.15); color: var(--accent-4); }
+  .badge-tip { background: rgba(255,123,114,0.15); color: var(--accent-5); }
+  .badge-template { background: rgba(247,120,186,0.15); color: var(--accent-7); }
+  .badge-key { background: rgba(227,179,65,0.2); color: var(--yellow); }
+
+  .node-body { display: none; padding: 2px 0 2px 28px; }
+  .node.open > .node-body { display: block; }
+
+  /* LEAF */
+  .leaf {
+    padding: 8px 12px; margin: 3px 0;
+    border-radius: 6px; font-size: 14px; line-height: 1.65; color: var(--text);
+  }
+  .leaf p { margin-bottom: 6px; }
+  .leaf strong { color: var(--accent-1); }
+  .leaf em { color: var(--accent-4); font-style: italic; }
+  .leaf .case-name { color: var(--accent-3); font-style: italic; }
+  .leaf .rule-ref { color: var(--accent-2); font-weight: 600; }
+  .leaf .stat-ref { color: var(--accent-6); font-weight: 600; }
+  .leaf .warning {
+    background: rgba(255,123,114,0.1); border-left: 3px solid var(--accent-5);
+    padding: 6px 10px; margin: 6px 0; border-radius: 0 4px 4px 0; font-size: 13px;
+  }
+  .leaf .highlight {
+    background: rgba(88,166,255,0.1); border-left: 3px solid var(--accent-1);
+    padding: 6px 10px; margin: 6px 0; border-radius: 0 4px 4px 0; font-size: 13px;
+  }
+  .leaf .key-principle {
+    background: rgba(227,179,65,0.08); border-left: 3px solid var(--yellow);
+    padding: 8px 12px; margin: 8px 0; border-radius: 0 4px 4px 0; font-size: 13px;
+  }
+  .leaf .success {
+    background: rgba(126,231,135,0.08); border-left: 3px solid var(--accent-2);
+    padding: 6px 10px; margin: 6px 0; border-radius: 0 4px 4px 0; font-size: 13px;
+  }
+
+  /* FIRAC BOX */
+  .firac-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px; margin: 8px 0;
+    font-size: 13px; line-height: 1.7;
+  }
+  .firac-box .firac-label { display: inline-block; font-weight: 700; width: 24px; color: var(--accent-7); }
+  .firac-box .firac-line { margin-bottom: 4px; }
+  .firac-box h4 { color: var(--accent-7); margin-bottom: 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* TABLE */
+  .info-table {
+    width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px;
+  }
+  .info-table th {
+    background: var(--surface); padding: 8px 12px; text-align: left;
+    border: 1px solid var(--border); color: var(--accent-1);
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .info-table td { padding: 8px 12px; border: 1px solid var(--border); vertical-align: top; }
+  .info-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* LEVEL COLORS */
+  .l1 > .node-header .label { color: var(--accent-1); font-size: 18px; }
+  .l2 > .node-header .label { color: var(--accent-2); font-size: 16px; }
+  .l3 > .node-header .label { color: var(--accent-4); font-size: 15px; }
+  .l4 > .node-header .label { color: var(--text); font-size: 14px; }
+
+  /* SEARCH */
+  .search-match { background: rgba(227,179,65,0.25); border-radius: 2px; }
+  .node.search-hidden { display: none; }
+
+  /* OVERVIEW CARDS */
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin: 16px 0; }
+  .overview-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px; cursor: pointer; transition: all 0.15s;
+  }
+  .overview-card:hover { transform: translateY(-2px); border-color: var(--accent-1); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .overview-card h3 { font-size: 16px; margin-bottom: 6px; }
+  .overview-card p { font-size: 13px; color: var(--text-muted); }
+  .overview-card .week { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  .card-blue { border-left: 3px solid var(--accent-1); }
+  .card-blue h3 { color: var(--accent-1); }
+  .card-green { border-left: 3px solid var(--accent-2); }
+  .card-green h3 { color: var(--accent-2); }
+  .card-purple { border-left: 3px solid var(--accent-3); }
+  .card-purple h3 { color: var(--accent-3); }
+  .card-orange { border-left: 3px solid var(--accent-4); }
+  .card-orange h3 { color: var(--accent-4); }
+  .card-red { border-left: 3px solid var(--accent-5); }
+  .card-red h3 { color: var(--accent-5); }
+  .card-cyan { border-left: 3px solid var(--accent-6); }
+  .card-cyan h3 { color: var(--accent-6); }
+  .card-pink { border-left: 3px solid var(--accent-7); }
+  .card-pink h3 { color: var(--accent-7); }
+  .card-yellow { border-left: 3px solid var(--yellow); }
+  .card-yellow h3 { color: var(--yellow); }
+
+  ul.compact { margin-left: 18px; margin-top: 4px; }
+  ul.compact li { margin-bottom: 2px; font-size: 13px; }
+
+  @media print {
+    .top-bar, .pillar-nav, .controls { display: none; }
+    .pillar { display: block !important; page-break-before: always; }
+    .node-body { display: block !important; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <h1>JUR302 Real Estate Law</h1>
+    <div class="subtitle">Master Mind Map &mdash; FIRAC Exam Prep &mdash; Winter 2026</div>
+  </div>
+  <div class="controls">
+    <input type="text" id="searchBox" placeholder="Search anything..." oninput="searchTree(this.value)">
+    <button onclick="expandAll()">Expand All</button>
+    <button onclick="collapseAll()">Collapse All</button>
+    <button onclick="window.print()">Print</button>
+  </div>
+</div>
+
+<div class="pillar-nav">
+  <div class="pillar-tab active" data-target="overview" onclick="showPillar(this)">Overview</div>
+  <div class="pillar-tab" data-target="p1" data-color="blue" onclick="showPillar(this)">1. Foundation (W1-2)</div>
+  <div class="pillar-tab" data-target="p2" data-color="green" onclick="showPillar(this)">2. Title Systems (W3-4)</div>
+  <div class="pillar-tab" data-target="p3" data-color="purple" onclick="showPillar(this)">3. Searches &amp; APS (W5-7)</div>
+  <div class="pillar-tab" data-target="p4" data-color="orange" onclick="showPillar(this)">4. Mortgages (W8)</div>
+  <div class="pillar-tab" data-target="p5" data-color="red" onclick="showPillar(this)">5. Closing &amp; Remedies (W9-10)</div>
+  <div class="pillar-tab" data-target="caselaw" data-color="yellow" onclick="showPillar(this)">Case Law</div>
+  <div class="pillar-tab" data-target="checklist" data-color="pink" onclick="showPillar(this)">Exam Checklist</div>
+</div>
+
+<div class="main">
+
+<!-- ==================== OVERVIEW ==================== -->
+<div class="pillar active" id="overview">
+  <h2 style="margin-bottom:6px;">JUR302 Real Estate Law &mdash; Course Map</h2>
+  <p style="color:var(--text-muted); margin-bottom:12px;">Click any card to dive into that topic. Each section has collapsible nodes with FIRAC templates and statute references.</p>
+
+  <div class="leaf" style="margin-bottom:16px;">
+    <div class="key-principle">
+      <strong>s. 140(2) Land Titles Act &mdash; The Foundational Principle:</strong><br>
+      The Land Titles system <em>guarantees the QUALITY of title, not the EXTENT of land.</em><br>
+      <span style="color:var(--text-muted); font-size:12px;">This is the single most important principle in the course. Cite it whenever title quality or indefeasibility is at issue.</span>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card card-blue" onclick="document.querySelector('[data-target=p1]').click()">
+      <div class="week">Weeks 1&ndash;2</div>
+      <h3>1. Foundation &amp; Terminology</h3>
+      <p>Transaction stages, property concepts, easements, fixtures vs chattels, estates in land</p>
+    </div>
+    <div class="overview-card card-green" onclick="document.querySelector('[data-target=p2]').click()">
+      <div class="week">Weeks 3&ndash;4</div>
+      <h3>2. Title Systems &amp; Ownership</h3>
+      <p>Registry vs Land Titles, owner status, POLARIS, title insurance, Bill 152</p>
+    </div>
+    <div class="overview-card card-purple" onclick="document.querySelector('[data-target=p3]').click()">
+      <div class="week">Weeks 5&ndash;7</div>
+      <h3>3. Searches, APS &amp; Requisitions</h3>
+      <p>Due diligence, APS terms, conditions precedent, requisitions, representations &amp; warranties</p>
+    </div>
+    <div class="overview-card card-orange" onclick="document.querySelector('[data-target=p4]').click()">
+      <div class="week">Week 8</div>
+      <h3>4. Mortgages &amp; Financing</h3>
+      <p>Types of mortgages, charges, discharge, interest calculation, registration priority</p>
+    </div>
+    <div class="overview-card card-red" onclick="document.querySelector('[data-target=p5]').click()">
+      <div class="week">Weeks 9&ndash;10</div>
+      <h3>5. Closing &amp; Remedies</h3>
+      <p>Pre-closing steps, LTT, adjustments, breach remedies, specific performance, defective title</p>
+    </div>
+    <div class="overview-card card-yellow" onclick="document.querySelector('[data-target=caselaw]').click()">
+      <div class="week">Quick Reference</div>
+      <h3>Case Law Index</h3>
+      <p>Every major case organized by topic with ratio and exam relevance</p>
+    </div>
+    <div class="overview-card card-pink" onclick="document.querySelector('[data-target=checklist]').click()">
+      <div class="week">Exam Day</div>
+      <h3>Issue-Spotting Checklist</h3>
+      <p>Checkbox-based issue spotter for every major topic &mdash; use this first on every exam question</p>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;">
+    <h2 style="margin-bottom:8px;">How to Use This on Exam Day</h2>
+    <div class="leaf">
+      <div class="highlight">
+        <strong>Step 1:</strong> Read the entire fact pattern &mdash; identify the stage of the transaction (pre-APS, APS, title search, closing, post-closing)<br>
+        <strong>Step 2:</strong> Open the <strong>Exam Checklist</strong> tab and tick every applicable issue<br>
+        <strong>Step 3:</strong> For each issue, navigate to the relevant Pillar and open the FIRAC template<br>
+        <strong>Step 4:</strong> Always identify which title system applies (Registry or Land Titles) &mdash; the answer may differ<br>
+        <strong>Step 5:</strong> For remedies &rarr; default to <em>specific performance</em> (land is unique); distinguish from damages only if facts demand it
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h2 style="margin-bottom:8px;">Top Cases to Know Cold</h2>
+    <div class="leaf">
+      <table class="info-table">
+        <tr><th>Case</th><th>Topic</th><th>Ratio (one line)</th></tr>
+        <tr><td class="case-name">Kucor v Canada Life</td><td>Corporate Capacity</td><td>Corporation must have capacity and authority to hold and transfer title</td></tr>
+        <tr><td class="case-name">Mamando v Singh</td><td>Owner Status</td><td>Transfer requirements tied to status; verify owner identity before closing</td></tr>
+        <tr><td class="case-name">Maroukis v Maroukis</td><td>Matrimonial Home (FLA)</td><td>Spousal consent required for disposition of matrimonial home; FLA s.21</td></tr>
+        <tr><td class="case-name">Stoimenov v Stoimenov</td><td>FLA Protections</td><td>FLA protections apply to property used as matrimonial home regardless of sole ownership</td></tr>
+        <tr><td class="case-name">Andrews v Rago</td><td>Title Defects / Land Description</td><td>Lawyer liability for failing to identify title defects through proper search</td></tr>
+        <tr><td class="case-name">Fire v Longtin</td><td>Title Defects</td><td>Title defects discovered after closing &mdash; remedies and professional responsibility</td></tr>
+        <tr><td class="case-name">Ontario Hydro v Tkach</td><td>Title Disputes</td><td>Competing claims to land and priority of registration under Land Titles</td></tr>
+        <tr><td class="case-name">Bernard v Weiss</td><td>Fixtures vs Chattels</td><td>Multi-factor test to determine whether item passes with real property</td></tr>
+        <tr><td class="case-name">Dynamic Transport v OK Detailing</td><td>Property Description</td><td>Interpretation of land descriptions in APS; Planning Act compliance</td></tr>
+        <tr><td class="case-name">MacIsaac v Salo</td><td>Boundaries</td><td>Reference plans govern boundaries; discrepancies between plans resolved by survey</td></tr>
+        <tr><td class="case-name">Flight v Booth</td><td>APS Interpretation</td><td>Strict interpretation of APS conditions; conditions precedent must be strictly met</td></tr>
+        <tr><td class="case-name">Bhasin v Hrynew [SCC]</td><td>Good Faith in Contracts</td><td>Organizing principle of good faith performance in contractual dealings</td></tr>
+        <tr><td class="case-name">Kreglinger v New Patagonia Meat</td><td>Mortgage / Equity of Redemption</td><td>Collateral advantage in mortgage terms; equity of redemption cannot be clogged</td></tr>
+        <tr><td class="case-name">Lee v Korea Exchange Bank</td><td>Mortgage Obligations</td><td>Mortgage payment obligations and consequences of default</td></tr>
+        <tr><td class="case-name">Walduda v Bell</td><td>Ownership &amp; Registration</td><td>Ownership rights tied to valid registration; importance of timely registration</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- end overview -->
